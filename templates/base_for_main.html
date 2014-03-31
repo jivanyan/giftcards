@@ -1,0 +1,23 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			{% block title_block %}
+				{% trans "GiftCard" %}
+			{% endblock %}
+		</title>
+	</head>
+	<body>
+		{% block body_block %}
+		
+			<h1>
+				{% trans "Do you want to buy a gift for someone you love?" %}
+			</h1>
+			{% trans "You are in the right place!!!" %}
+		{% endblock %}
+		{% block main_nav %}
+			This is the main navigator block
+		{% endblock %}
+	</body>
+</html>
