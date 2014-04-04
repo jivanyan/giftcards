@@ -6,7 +6,7 @@
 {% endblock %}
 
 
-{% block body_block %}
+{% block body_header1_block %}
 
  <div id="header" class="span-24 last">
       <table class="layout">
@@ -51,43 +51,3 @@
 
 
 {% endblock %}
-
-{% block main_nav %}
-<div id="main_nav" class="span-24 last">
-      <ul id="popup_nav" class="left nav_button_bar"> 
-        <li class="nav_button_container"> 
-          <a href="/buy-gift-cards" class="nav_button ga_track_event:category=clicks:action=buy:opt_label=nav_bar">Buy Gift Cards</a>
-        </li>
-        <li class="nav_button_container"> 
-          <a href="/sell-gift-cards" class="nav_button ga_track_event:category=clicks:action=sell:opt_label=nav_bar">Sell Gift Cards</a>
-          <div class="sub"> 
-            <ul style="width: 280px;"> 
-              <li><a href="/sell-gift-cards">Sell Gift Cards For Cash</a></li> 
-              <li><a href="/sell/gift-cards-for-amazon-gift-card">Sell Gift Cards For Amazon.com Gift Card</a></li>
-                          </ul> 
-          </div> 
-        </li> 
-        <li class="nav_button_container"> 
-          <a href="/wishlist" class="nav_button ga_track_event:category=clicks:action=wishlist:opt_label=nav_bar">Manage Wishlist</a>
-        </li>
-        <li class="nav_button_container"> 
-          <a href="/support/how-it-works" class="nav_button ga_track_event:category=clicks:action=how_it_works:opt_label=nav_bar">How It Works</a>
-          <div class="sub"> 
-            <ul style="width: 245px;"> 
-              <li><a href="/support/how-it-works">How Does Cardpool Work?</a></li> 
-              <li><a href="/support/how-to-buy-gift-cards">How Do I Buy Discount Gift Cards?</a></li> 
-              <li><a href="/support/how-to-sell-gift-cards">How Do I Sell Gift Cards For Cash?</a></li> 
-            </ul> 
-          </div> 
-        </li>
-              </ul>
-      <div class="right">
-        <ul class="nav_button_bar">
-          <li class="nav_button_container"> 
-          <a href="/shopping-cart" class="nav_button" id="shopping_cart_link">Shopping Cart (<span id="shopping_cart_count">0</span>)</a>
-          </li>
-        </ul>
-      </div> 
-    </div>  
-{% endblock %} 
-

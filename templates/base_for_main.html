@@ -1,23 +1,132 @@
 {% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			{% block title_block %}
-				{% trans "GiftCard" %}
-			{% endblock %}
-		</title>
-	</head>
-	<body>
-		{% block body_block %}
+<head>
+	<link href="{% static 'css/style.css' %}" media="all" rel="stylesheet" type="text/css" />
+	<title>
+		{% block title_block %}
+			"GiftCard"
+		{% endblock %}
+	</title>
+</head>
+<body>
+{% block body_header_block %}
+
+<div id="header" class="span-24 last">
+<table class="layout">
+	<tr>
+        <td style="vertical-align: bottom; width: 25%;">
+        	<div class="logo">
+
+        	<a href="/"><img alt="Cardpool - Gift Card Exchange" class="ie6_hack_png_fix" height="48" src="/scaled_images/common/146x48/logo_146x48.png?1396037114" width="146" /></a>
+        	</div>
+        </td>
+        <td style="vertical-align: middle; width: 50%;">
+        	<div style="text-align: center; margin: 5px;">
+        	      	<script type="extole/widget">
+			{
+			  "zone": "global_headline",
+			  "params": {
+			    "tag:funnel": null,
+			    "tag:merchant_id": null,
+			    "tag:merchant_name": null,
+			    "tag:cart_id" : null  }
+			}
+			</script>
+	        </div>
+            	<div class="slogan" style="margin: 5px;">
+              		<a href="/support/how-it-works" class="ga_track_event:category=clicks:action=how_it_works:opt_label=header">Free Shipping and 100-Day Purchase Guarantee</a><br />
+            	</div>
+       </td>
+       <td style="vertical-align: bottom; width: 25%; text-align: right;">
+            	<div class="links">
+
+                	<a href="#" class="signup_link">(Aram Jivanyan)</a> <span class="separator">|</span>
+                	<a href="#" class="login_link">Login(My Account)</a>
+
+            	</div>
+            	<div class="contact">
+            		<a href="/support/how-it-works" style="font-size: 14px;">Questions?  Contact Us</a>
+            	</div>
+       </td>
+       </tr>
+</table>
+</div>
+                     
+{% endblock %}
 		
-			<h1>
-				{% trans "Do you want to buy a gift for someone you love?" %}
-			</h1>
-			{% trans "You are in the right place!!!" %}
-		{% endblock %}
-		{% block main_nav %}
-			This is the main navigator block
-		{% endblock %}
+{% block  body_nav_block %}
+
+<div id="main_nav" class="span-24 last">
+      <ul id="popup_nav" class="left nav_button_bar">
+        <li class="nav_button_container">
+          <a href="/giftcards" class="nav_button ga_track_event:category=clicks:action=buy:opt_label=nav_bar">Buy Gift Cards</a>
+        </li>
+        <li class="nav_button_container">
+          <a href="/giftcards/sell" class="nav_button ga_track_event:category=clicks:action=sell:opt_label=nav_bar">Sell Gift Cards</a>
+          <div class="sub">
+            <ul style="width: 280px;">
+              <li><a href="/sell-gift-cards">Sell Gift Cards For Cash</a></li>
+              <li><a href="/sell/gift-cards-for-amazon-gift-card">Sell Gift Cards For Amazon.com Gift Card</a></li>
+                          </ul>
+          </div>
+        </li>
+        <li class="nav_button_container">
+          <a href="/support/how-it-works" class="nav_button ga_track_event:category=clicks:action=how_it_works:opt_label=nav_bar">How It Works</a>
+          <div class="sub">
+            <ul style="width: 245px;">
+              <li><a href="/support/how-it-works">How Does Cardpool Work?</a></li>
+              <li><a href="/support/how-to-buy-gift-cards">How Do I Buy Discount Gift Cards?</a></li>
+              <li><a href="/support/how-to-sell-gift-cards">How Do I Sell Gift Cards For Cash?</a></li>
+            </ul>
+          </div>
+        </li>
+        </ul>
+      <div class="right">
+        <ul class="nav_button_bar">
+          <li class="nav_button_container">
+          <a href="/shopping-cart" class="nav_button" id="shopping_cart_link">Shopping Cart (<span id="shopping_cart_count">0</span>)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+{% endblock %}
+
+{% block body_main_block %}
+{% endblock %}
+{% block body_content_block %}
+		<div id="footer" class="span-24 last">
+                       This is the main navigator block
+			<p> -------------------------------------------------</p>
+			</div>
+{% endblock %}
+
+{% block footer %}
+			<div id="footer" class="span-24 last">
+      				<div>
+        			<a href="/about">About Us</a> <span class="separator">|</span> 
+        			<a href="/reviews">Reviews</a> <span class="separator">|</span> 
+        			<a href="/tos">Terms</a> <span class="separator">|</span> 
+        			<a href="/privacy" target="_blank">Privacy</a> <span class="separator">|</span> 
+        			<a href="/affiliates/programs" class="ga_track_event:category=clicks:action=invite:opt_label=footer">Affiliates</a> <span class="separator">|</span> 
+        			<a href="/jobs" class="ga_track_link:href=/virtual/jobs">Jobs</a> <span class="separator">|</span> 
+        			<a href="http://www.cardpool.com/blog" class="ga_track_link:href=/virtual/blog">Blog</a> <span class="separator">|</span> 
+        			<a href="/support/how-it-works" class="ga_track_event:category=clicks:action=faq:opt_label=footer">FAQ</a> <span class="separator">|</span> 
+        			<a href="/support/contact">Contact Us</a>
+      			</div>
+      			<div id="footer_disclaimer">
+          		Designated trademarks and brands are the property of their respective owners.
+          		Use of this website constitutes acceptance of Cardpool.com's 
+          		<a href="/privacy" target="_blank">Privacy Policy</a> 
+          		and <a href="/tos">Terms of Use</a>.
+      		</div>
+      		<div id="footer_copyright">
+        		Copyright © 2013 Cardpool, Inc. All right reserved.
+      		</div>
+    		</div>
+{% endblock %}
 	</body>
 </html>

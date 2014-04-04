@@ -7,7 +7,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', MainPageView.as_view(), name='main_page'),
-    # url(r'^giftcards/', include('giftcards.foo.urls')),
+    url(r'^giftcards/', include('giftcard.urls')),
+    url(r'^merchant/', include('merchant.urls')),
+    #url(r'^patron/', include('patron.urls')),		
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
