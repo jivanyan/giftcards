@@ -1,0 +1,17 @@
+{% extends 'base_for_main.html' %}
+{% load i18n %}
+
+{% block title_block %}
+	{% trans "Error Page" %}
+{% endblock %}
+
+
+{% block body_content_block %}
+   <div id="footer" class="span-24 last">
+                       
+        <p> {{message}}</p>
+   </div>
+{% endblock %}
+
+
+

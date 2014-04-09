@@ -9,6 +9,8 @@
 			"GiftCard"
 		{% endblock %}
 	</title>
+	{% block javascript %}
+	{% endblock %}
 </head>
 <body>
 {% block body_header_block %}
@@ -41,10 +43,14 @@
        </td>
        <td style="vertical-align: bottom; width: 25%; text-align: right;">
             	<div class="links">
-
-                	<a href="#" class="signup_link">(Aram Jivanyan)</a> <span class="separator">|</span>
-                	<a href="#" class="login_link">Login(My Account)</a>
-
+			{% if user.is_authenticated %}
+				<a href="/account/edit" class="signup_link">{{ user.first_name }} {{ user.last_name }}</a> <span class="separator">|</span>
+                                <a href="/logout" class="login_link">Logout</a>
+	
+			{% else %}	
+                		<a href="/login/" class="signup_link">Signup</a> <span class="separator">|</span>
+                		<a href="/login/" class="login_link">Login</a>
+			{% endif %}	
             	</div>
             	<div class="contact">
             		<a href="/support/how-it-works" style="font-size: 14px;">Questions?  Contact Us</a>
@@ -84,11 +90,13 @@
         </li>
         </ul>
       <div class="right">
+	{% if account %}
         <ul class="nav_button_bar">
           <li class="nav_button_container">
-          <a href="/shopping-cart" class="nav_button" id="shopping_cart_link">Shopping Cart (<span id="shopping_cart_count">0</span>)</a>
+          <a href="/shopping-cart" class="nav_button" id="shopping_cart_link">Balance (<span id="shopping_cart_count">{{balance}}</span>)</a>
           </li>
         </ul>
+	{% endif %}
       </div>
     </div>
 
@@ -96,13 +104,17 @@
 {% endblock %}
 
 {% block body_main_block %}
+
+
+
 {% endblock %}
+
 {% block body_content_block %}
-		<div id="footer" class="span-24 last">
-                       This is the main navigator block
-			<p> -------------------------------------------------</p>
-			</div>
+
+
+
 {% endblock %}
+
 
 {% block footer %}
 			<div id="footer" class="span-24 last">

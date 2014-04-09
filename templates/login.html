@@ -1,0 +1,219 @@
+{% extends 'base_for_main.html' %}
+{% load i18n %}
+
+{% block title_block %}
+	{% trans "Login" %}
+{% endblock %}
+
+
+{% block body_content_block %}
+
+<div id="main_content" class="span-24 last">
+<div class="raised_box"> <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div class="shadow_box" style="padding-left:30px; "> 
+<div class="box_middle"><div class="content"> 
+<table class="layout">
+<tr>
+       	<td style="vertical-align:top; padding-right:20px; width: 200px">
+      		<h2>Returning Customers</h2>
+      		<hr />
+           	<form action="/login/" class="login_form display_form_errors_inline" method="post">
+              		{% csrf_token %}
+			
+			<table class="layout">
+                	<tr>
+                	<td>
+                   		<label for="login">Email</label>
+                    		<input class="login_email input_large_full" id="login" name="login" type="text" />
+                	</td>
+                	</tr>
+                	<tr>
+                	<td>
+                    		<label for="password">Password</label>
+                    		<input class="login_password input_large_full" id="password" name="password" type="password" />
+			        <input type="hidden" name="login_next" value="{{ next }}" />
+	
+                    		<p><a href="/reset-password">Forgot your password?</a></p>
+                	</td>
+                	</tr>
+                	<tr>
+                	<td>
+				<button class="btn btn-success" type="submit">Login</button>
+
+                   		<span class="blue_button bottom" style="width: 75px;">
+					<a href="/giftcards/" class="login_button submit_button">
+					<span class="button_right" style="cursor: pointer;">
+					<span class="button_left"><span class="button_text">Login</span></span></span>
+					</a>
+				</span>
+				{% if message %}
+					<p> {{ message }} </p>
+				{% endif %}
+                	</td>
+                	</tr>
+              		</table>
+            	</form>
+          </td>
+
+          <td style="width:1px; background-color:#DDD;"></td>
+
+          <td style="vertical-align:top; padding-left:20px; width:230px;">
+          	<h2>New Customers</h2>
+            	<hr />
+            	<form action="/signup/" class="signup_form display_form_errors_inline" id="new_user" method="post">
+			{% csrf_token %}
+
+		        <div class="flashes"></div>
+              		<table class="layout">
+                	<tr>
+	                  	<td>
+        	            		<label for="user_full_name">First Name </label>
+                	       		<input class="input_large_full" id="user_full_name" name="user[full_name]" size="30" type="text" value=" " />
+                  		</td>
+                	</tr>
+			<tr>
+                                <td>
+                                        <label for="user_sur_name">Second Name </label>
+                                        <input class="input_large_full" id="user_sur_name" name="user[sur_name]" size="30" type="text" value=" " />
+                                </td>
+                        </tr>
+
+                	<tr>
+                 		<td>
+                    			<label for="user_email">Email </label>
+                        		<input class="input_large_full" id="user_email" name="user[email]" size="30" type="text" />
+                  		</td>
+                	</tr>
+                	<tr>
+                  		<td>
+                    			<label for="user_password">Password </label>
+                              		<input class="input_large_full" id="user_password" name="user[password]" size="30" type="password" />
+					<input type="hidden" name="signup_next" value="{{ next }}" />
+
+                  		</td>
+                	</tr>
+                	<tr>
+                  		<td>
+                     			<table class="layout">
+                       			<tr>
+                        			<td style="vertical-align: top;">
+                           			<input checked="checked" id="opt_in_to_email_newsletter" name="opt_in_to_email_newsletter" type="checkbox" value="yes" />
+                        			</td>
+                        			<td style="vertical-align: top">
+                        				<div style="margin-left: 6px;">
+                        					<label for="opt_in_to_email_newsletter" style="font-weight: normal; font-size: 10px;">Please send me member-only discounts and news about Cardpool.</label>
+                        				</div>
+                        			</td>
+                       			</tr>
+                      			</table>
+                    		</td>
+                  	</tr>
+			<tr>
+				<td>
+					
+                    			<div style="margin-top: 10px;">
+					<button class="blue_button btn btn-success signup_button submit_button "type="submit">Signup</button>
+
+                      			<span class="blue_button bottom" style="width: 82px;">
+		      			<a href="" class="signup_button submit_button">
+					<span class="button_right" style="cursor: pointer;">
+					<span class="button_left">
+					<span class="button_text">Signup</span></span></span>
+		      			</a></span>
+                    			</div>
+                  		</td>
+                	</tr>
+              	</table>
+            	</form>
+	</td>
+</tr>
+</table>
+</div></div>
+<div class="box_bottom"><!-- ie_hack: ie6 sucks --></div>
+</div>
+</div></div></div>
+</div></div>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block body_content1_block %}
+<div id="main_content" class="span-24 last">
+      <div id="container" class="wrapper">
+      <div class="main">
+	<div class="LoginPage"><div class="page-header">
+    		<h1>Welcome Back</h1>
+    	</div>
+
+  	<div class="success-notification"> </div>
+
+	<div class="column11 first">
+    	<div class="page-intro">Evernote helps you remember everything across all the computers, phones and tablets you use.</div>
+      	<div class="Tour"><div class="evernote-tour">
+    		<div class="tour-container">
+      			<div class="tour1">
+          			<h4>Capture anything</h4>
+          			<p>Save your ideas, tasks, projects, files, research, and more.</p>
+      			</div>
+    		</div>
+    		<div class="tour-container">
+      			<div class="tour2">
+        			<h4>Access anywhere</h4>
+			        <p>Evernote makes all of your memories available anywhere you go.</p>
+		        </div>
+		</div>
+		<div class="tour-container last">
+      			<div class="tour3">
+		        	<h4>Find everything fast</h4>
+        			<p>Search by keyword, tag, and even find text inside images.</p>
+      			</div>
+    		</div>
+  	</div></div></div>
+
+  	<div class="column11">
+    	<div class="LoginForm"><div class="callout-box">
+    	<div class="reg-header">
+      		<h3>Sign in<span class="switch"> 
+              	<form id="switchForm" action="/Registration.action" method="post">or&nbsp;
+                <a id="switchLink">Create an Account</a>
+              	<input type="hidden" name="showSwitchService" value="true" /><input type="hidden" name="targetUrl" value="/Home.action" /><div style="display: none;"><input type="hidden" name="_sourcePage" value="FZOAyvaIXLTiMUD9T65RG_YvRLZ-1eYO3fqfqRu0fynRL_1nukNa4gH1t86pc1SP" /><input type="hidden" name="__fp" value="2BR8pKPsmTg=" /></div></form></span>
+          	</h3>
+      	</div>
+    	<div class="signin">
+      		<form id="login_form" name="login_form" action="/Login.action" method="post">
+		<label>Email address or username</label>
+		<input id="username" maxlength="64" name="username" class="text" type="text" />
+			<script type="text/javascript">setTimeout(function(){try{var z=document.getElementById('username');
+							z.focus();z.select();}catch(e){}},1);
+			</script>
+			<div id="username_errors" class="form_errors"></div>
+		<label>Password</label>
+		<input id="password" maxlength="64" name="password" class="text" type="password" /><div class="checkbox-container">
+    		<input id="rememberMe" name="rememberMe" value="true" class="checkbox" type="checkbox" />
+		<label class="checkbox-text">Remember me for a week</label>
+  	</div>
+	<input id="login" name="login" value="Sign in" class="super-emphasize" type="submit" />
+	<input type="hidden" name="showSwitchService" value="true" /><input type="hidden" name="targetUrl" value="/Home.action" /><div style="display: none;"><input type="hidden" name="_sourcePage" value="hlE1BXO_PJniMUD9T65RG_YvRLZ-1eYO3fqfqRu0fynRL_1nukNa4gH1t86pc1SP" /><input type="hidden" name="__fp" value="UY1fJ3DoNT43yWPvuidLz-TPR6I9Jhx8" /></div></form><a href="https://www.evernote.com/ForgotPassword.action?targetUrl=%2FHome.action" target="_top" class="password">
+          Reset your password?</a>
+      </div>
+    </div>
+</div></div>
+
+</div></div>
+
+<div class="shadow wrapper">
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+
+

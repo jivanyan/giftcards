@@ -1,0 +1,103 @@
+{% extends 'base_for_main.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block javascript %}
+	
+<script type="text/javascript">
+    // Appease XHTML validation:
+    // <![CDATA[ 
+    $(document).ready(function() {
+      //Navigation.init();
+      //OverlayForms.init(true, "TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=");
+      //ShoppingCart.init(false);
+      //FeedbackForm.init("TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=");
+      //Main.init();
+      //Tracking.init();
+      //Ratings.init();
+             
+        
+  $("#change_name_link").click(function() { alert("Hello"); $("#change_name_ui").toggle() });
+  $("#change_email_link").click(function() { $("#change_email_ui").toggle() });
+  $("#change_password_link").click(function() { $("#change_password_ui").toggle() });
+
+    });
+    // ]]>
+  </script>
+
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+//-->
+</script>
+{% endblock %}
+
+
+{% block body_main_block %}
+<div class="span-24 last">
+  <div class="raised_box">
+    <div class="box_top_right"><div class="box_top_left"><!-- ie_hack: ie6 sucks --></div></div>
+    <div class="box_middle_right"><div class="box_middle_left"><div class="content_extra_padding">
+      <div class="easy_to_read_styles">
+        <h1 style="margin-bottom: 15px;">Account Information</h1>
+        <div class="secondary_nav">
+          <div class="left">
+            <ul>
+		{% if sent_giftcards %}	
+             		<li><a href="/account/sent-giftcards" class="selected">Sent Giftcards</a></li>
+		{% else %}
+			 <li><a href="/account/sent-giftcards" class="">Sent Giftcards</a></li>
+		
+		{% endif %}
+		
+		{% if transactions %}
+			<li><a href="/account/transactions" class="selected">Transactions</a></li>
+		{% else %}
+			<li><a href="/account/transactions" class="">Transactions</a></li>
+		{% endif %}
+
+	        {% if sold_giftcards %}
+			<li><a href="/account/sold-giftcards" class="selected">Sold Giftcards</a></li>
+		{% else %}
+			<li><a href="/account/sold-giftcards" class="">Sold Giftcards</a></li>
+		{% endif %}	
+            </ul>
+          </div>
+          <div class="right">
+            <ul>
+		{% if settings %}
+			<li><a href="/account/edit" class="selected">Account Settings</a></li>
+		{% else %}	
+	  	        <li><a href="/account/edit" class="">Account Settings</a></li>
+		{% endif %}
+            </ul>
+          </div>
+        </div>
+        <div style="margin: 0 10px;">
+
+ {% block account_content %}
+ {% endblock %}		
+        </div>
+      </div>
+    </div></div></div>
+    <div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+  </div>
+</div>
+
+</div>
+<hr />
+    
+{% endblock%}
+
+{% block body_content_block %}
+{% endblock %}
+
+
+

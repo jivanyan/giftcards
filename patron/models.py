@@ -32,7 +32,7 @@ class Patron(models.Model):
 
         picture         = models.ImageField(upload_to = 'profile_pictures',
                                       blank = True)
-	account 	= models.OneToOneField(PatronAccount, related_name = 'Patron')
+	account 	= models.OneToOneField(PatronAccount, related_name = 'patron')
 	class Meta:
 		db_table = 'patrons'
 	

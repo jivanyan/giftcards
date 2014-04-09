@@ -1,0 +1,143 @@
+{% extends 'patron/patron_account_base.html' %}
+{% load i18n %}
+
+{% block title_block %}
+        {% trans "Account Settings" %}
+{% endblock %}
+
+{% block account_content %}
+
+  <h2>Account Settings</h2>
+  <hr />
+
+  <form action="/account/edit" class="edit_user" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=" /></div>
+    <div class="gray_box" style="padding-top: 40px; padding-bottom: 40px;">
+      <table class="layout bottom" style="width: 500px; margin: 0 auto;">
+
+      <!--Full Name-->
+      <tr>
+        <td>
+          <strong>Full Name: {{user.first_name}} {{user.sur_name}}</strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_name_link" class="pointer" onclick = "toggle_visibility('change_name_ui');" >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_name_ui" style="display: none;">
+            <tr>
+              <td>
+		<label for = "user_first_name"> First Name</label><br />
+                <input class="input_large_300" id="user_first_name" name="user[first_name]" size="30" type="text" value="{{user.first_name}}" />
+              </td>
+	   </tr>	
+	   <tr>	
+	      <td>
+		<label for = "user_sur_name"> Last Name</label><br />
+                <input class="input_large_300" id="user_sur_name" name="user[sur_name]" size="30" type="text" value=" {{user.last_name}}" />
+
+              </td>
+
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+     <tr>
+        <td>
+          <strong>Email: {{user.email}} </strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_email_link" class="pointer" onclick = "toggle_visibility('change_email_ui');" >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_email_ui" style="display: none;">
+            <tr>
+              <td>
+                <label for="user_email">New Email</label><br />
+                <input class="input_large_300" id="user_email" name="user[email]" size="30" type="text" value="" />
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="user_email_confirmation">Confirm New Email</label><br />
+                <input class="input_large_300" id="user_email_confirmation" name="user[email_confirmation]" size="30" type="text" value="" />
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+     <tr>
+        <td>
+          <strong>Password: *******</strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_password_link" class="pointer" onclick = "toggle_visibility('change_password_ui');"  >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_password_ui" style="display: none;">
+            <tr>
+              <td>
+                <label for="user_password">New Password</label><br />
+                <input class="input_large_300" id="user_password" name="user[password]" size="30" type="password" />
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="user_password_confirmation">Confirm New Password</label><br />
+                <input class="input_large_300" id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" />
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+ <!--Submit-->
+      <tr>
+        <td>
+	<button class="btn btn-success" type="submit">Save Changes</button>	
+        <!--<span class="blue_button submit_button bottom" style="width: 120px;">
+		<a href="/account/edit">
+		<span class="button_right" style="cursor: pointer;">
+		<span class="button_left">
+		<span class="button_text">Save Changes
+		</span>
+		</span>
+		</span>
+		</a>
+	</span>-->
+        </td>
+      </tr>
+    </table>
+  </div>
+  </form>
+
+
+
+{% endblock %}
+~                         
