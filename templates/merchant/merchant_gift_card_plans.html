@@ -1,0 +1,74 @@
+{% extends 'merchant/merchant_home_base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block body_main_block %}
+<div id="main_content" class="span-24 last">
+<div class="span-12" style="margin-bottom: 20px;">
+<div class="raised_box_with_header">
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+
+
+<table class="layout">
+<tr>
+
+
+<td style="vertical-align: top; width: 999999990%;">
+	<div class="span-18 last">  <div class="raised_box_with_header">
+        <div class="box_top_right"><div class="box_top_left"><div class="header">You have {{plans|length}} valid gift card plans </div></div></div>
+            
+          
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div id="card_list_container">
+  <table id="card_list" class="data_list bottom">
+    <tr class="physical ebuy mobile_delivery header">
+      <th style="width: 284px" colspan="2"><span class="ie6_hack_force_no_wrap">Logo</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Price</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Value</span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Created </span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Expiration Date</span></th>	
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Is Valid</span></th>	
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Solded</span></th>	
+    </tr>
+	{% for p in plans %}
+	   <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="a in pea pod the physical">
+      		<td style="width: 284px;">
+        		<a href = "/merchant/home/">
+        	  		<img alt= "{{p.logo}}" height="48" src="/media/{{p.logo}}/" width="75" />
+        		</a>
+      		</td>
+      		<td style="width: 200px;">
+        	</td>
+      		<td>{{p.price}}</td>
+      		<td>{{p.value}}</td>
+      		<td>{{p.created_date|date:'Y-m-d '}}</td>
+      		<td>{{p.exp_time|date:'Y-m-d '}}</td>
+      		<td>
+			{% if p.is_active %}
+				YES
+			{% else %}
+				NO
+			{% endif %}
+		<td>
+		<td>{{p.sold}}</td>
+        
+    	   </tr>
+	{% empty %}
+	{% endfor %}
+</table>
+</div>
+</div></div></div>
+</div>
+
+</td>
+</tr>
+</table>
+</div></div></div>
+</div></div>
+</div>
+
+{% endblock %}
+~                                                                                                                                                         
+~                                                                                                                                                         
+~                         

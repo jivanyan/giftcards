@@ -1,0 +1,124 @@
+{% extends 'base_for_main.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block body_main_block %}
+
+
+<div class="raised_box">
+  <div class="box_top_right"><div class="box_top_left"><!-- ie_hack: ie6 sucks --></div></div>
+  <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+    <table class="layout">
+      <tr>
+        <td style="width: 250px;">
+          <img alt="JCPenney Gift Card" height="126" src="/scaled_images/cards/200x126/jcpenney_200x126.jpg?1396575784" style="padding-left: 25px;" width="200" />
+          <h3 style="padding-top: 10px; text-align: center; margin-bottom: 0;">
+            <a href="/wishlist">Add to Wishlist</a>
+          </h3>
+        </td>
+        <td style="padding-left: 20px;">
+          
+            <h1>{{merchant.name}} Gift Cards</h1>
+          
+          <p>{{ merchant.name }} {{ merchant.name }} {{  merchant.name }}</p>
+                      <p><a href= {{ merchant.website}} class="ga_track_link:href=/virtual/merchant_visit_link/click/jcpenney-gift-cards" target="_blank">&raquo; Visit {{merchant.name }}</a></p>
+                    <div style="position: relative;">
+            <div style="position: absolute; bottom: 0; right: 0;">
+              <script type="extole/widget">
+{
+  "zone": "merchant_page_description_corner",
+  "params": {
+    "tag:funnel": "buy",
+    "tag:merchant_id": 53,
+    "tag:merchant_name": "jcpenney",
+    "tag:cart_id" : null  }
+}
+</script>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div></div></div>
+</div>
+
+{% endblock  %}
+
+
+{% block body_content_block %}
+
+<div id="main_content" class="span-24 last">
+
+
+{% include "giftcard/bluebox.html" %}
+
+<table class="layout">
+<tbody>
+<tr>
+  <td style="width: 30%; padding-right: 10px; vertical-align: top;">
+  <div>
+        {% include "categories_list.html" %}
+        {% include "merchants_list.html" %}
+        {% include "gift_cards_request_form.html" %}
+  </div>
+</td>
+
+<td style="vertical-align: top; width: 70%;">
+  <div class="span-18 last">
+        <div class="raised_box_with_header">
+          <div class="box_top_right"><div class="box_top_left"><div class="header">Search Discount Gift Cards</div></div></div>
+          <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+              <input type="text" class="merchants_filter input_search_bar input_search_bar_inactive" value="Search Discount Gift Cards..." style="width:635px;">
+          </div></div></div>
+          <div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+        </div>
+
+
+    
+        <div class="merchant_panel raised_box_with_header">
+  <div class="box_top_right"><div class="box_top_left"><div class="header">Discounted Gift Cards</div></div></div>
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+    <div class="merchants_search_system">
+        <div class="merchants_grid_searching" style="display:none">
+        <hr>
+                <p class="bottom">
+                        <img alt="Loading" src="/images/common/loading.gif?1396397139" style="padding-right: 15px; padding-bottom: 4px; vertical-align: middle;">
+          Searching...
+                </p>
+        </div>
+
+        {% include "giftcard/giftcards_list_as_a_table.html" %}
+
+        <div class="merchants_grid_no_results" style="display:none">
+                <hr>
+                <p>
+                          <span class="merchants_grid_no_results_message"></span>
+                </p>
+                <p class="bottom">
+                        <a href="/wishlist">Want to find out when we get more stock?</a>
+                        <!-- <a id="clear_search" style="cursor: pointer">Try Another Search</a>. -->
+                </p>
+        </div>
+    </div>
+
+ </div></div></div>
+  <div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+</div>
+
+      </div>
+    </td>
+  </tr>
+</tbody></table>
+
+
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

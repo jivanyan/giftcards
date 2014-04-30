@@ -17,13 +17,8 @@ class CurrencyField(models.DecimalField):
 class Account(models.Model):
 	valid 		= models.BooleanField()
 	frozen		= models.BooleanField()
-	balance		= CurrencyField(max_digits=8,
-					 decimal_places=2,
-					 default = 0)
+	balance		= CurrencyField(max_digits = 10, decimal_places=2, default = 0) 
 	#credit		= CurrencyField(max_digits=8, decimal_places=2)
-	frozen_sum	= CurrencyField(max_digits=8,
-					 decimal_places=2,
-					 default = 0)
 	class Meta:
 		abstract = True
 	def __unicode__(self):
@@ -34,6 +29,8 @@ class PatronAccount(Account):
 	#patron 		= models.OneToOneField(Patron, related_name = 'Account')
 	class Meta:
 		db_table = 'patron_accounts'
+	def __unicode__(self):
+		return u"%s" % (self.patron.user.first_name + self.patron.user.last_name)
 
 
 class MerchantAccount(Account):

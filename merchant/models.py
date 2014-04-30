@@ -1,8 +1,14 @@
 from django.db import models, transaction
 from django.contrib.auth.models import User
 from giftcard.models import GiftCardHistoryItem
+from account.models import CurrencyField
 from django.conf import settings
 import hashlib
+
+
+def merchant_image(instance, filename):
+    return '/'.join(['merchants', instance.user.username, filename])
+
 
 class Merchant(models.Model):
 	class MerchantCategory:
@@ -28,10 +34,23 @@ class Merchant(models.Model):
 	category	= models.IntegerField(verbose_name = 'Category',
 					      choices = Category_Types,
 					      default = MerchantCategory.OTHER)
+	commission 	= models.PositiveSmallIntegerField(verbose_name = 'Commission Fee Percent',
+					      default = settings.GIFT_CARD_COMMISION_PERCENT)
    	website 	= models.URLField(verbose_name = 'Website', blank = True)
 	picture 	= models.ImageField(verbose_name = 'Picture',
-					 	upload_to = 'profiles_images',
+					 	upload_to = merchant_image,
 					 	blank = True)
+	phone    	= models.CharField(verbose_name='Phone Number',
+                                  		max_length=128,
+                                  		null=True,
+                                  		blank=True)
+	lat          = models.FloatField(verbose_name='Latitude',
+                                   null=True,
+                                   blank=True)
+	lng          = models.FloatField(verbose_name='Longitude',
+                                   null=True,
+                                   blank=True)
+
 	class Meta:
 		db_table = 'merchants'
 
@@ -56,34 +75,23 @@ class Merchant(models.Model):
 			
 		#reserve money from merchant account to giftcard site account
 
-	def accept_giftcard(self, ID, summa):
-		try:
-			hash = hashlib.sha1()
-		        hID = hash.update(ID)
-			g = GiftCard.objects.get(hash_id = hID)		 	
-
-			with transaction.commit_on_success():
-        	                accepted, debt, rem = g.charge(summa)
-				if rem == 0 :
-					comment = _("Charged Fully and Deactivated")
-				else:
-					comment = _("Charged %s" % summa)
-               			#The next line should be replaced by the real user 
-                        	#revocation corresponding to the merchant
-				h = GiftCardHistoryItem(card = g, 
-						comment = comment, 
-						timestamp = datetime.datetime.utcnow().replace(tzinfo=utc), 
-						master = self.user)
-                        	h.save()
-				if g.buyer.user == self.user:
-					pass	#Send commission money from merchant account to giftcard site:
-				else:
-					pass   #request commission from site to be transferred to merchant account
-		except GiftCard.DoesNotExist:
-			pass
-		return accepted, debt, rem				
-		
-
 	def __unicode__(self):
                 return self.name
-# Create your models here.
+
+class Transaction(models.Model):
+	merchant 	= models.ForeignKey(Merchant, related_name = 'Transactions')
+	timestamp	= models.DateTimeField(verbose_name = 'timestamp', auto_now_add = True)
+	comment 	= models.TextField(verbose_name = 'Comment', max_length = 512)
+	purchase_id	= models.CharField(verbose_name = 'Purchase ID', max_length = 32,blank = True, default = '')
+	amount		= CurrencyField(verbose_name = 'Price', max_digits = 10, decimal_places=2, default = 0)
+	giftcard_code 	= models.CharField(verbose_name = 'Giftcard code', max_length=12)
+	
+	def __unicode__(self):
+                return self.name
+		
+
+
+
+
+
+

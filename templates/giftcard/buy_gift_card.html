@@ -1,0 +1,53 @@
+{% extends 'giftcard/giftcards_base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block body_main_block %}
+
+<div id="main_content" class="span-24 last">
+<div class="span-12" style="margin-bottom: 20px;">
+  <div class="raised_box_with_header">
+    <div class="box_top_right"><div class="box_top_left"><div class="header">Buy Gift Card</div></div></div>
+
+    <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+	
+        <form class="span6" name = "gift[form]" id="category_form" method="post" action="/giftcards/{{plan_id}}/buy/" enctype="multipart/form-data"  >
+		{% csrf_token %}	
+
+		<table id = "gift_order">
+		<tr><td>
+		
+		{% if fixed %}
+			<p>PRICE: {{plan.price}}   VALUE:{{plan.value}}<p>
+			<input type="hidden" name="gift[amount]" value="{{plan.value}}" />
+		{% else %}
+			<p>Minimum Value: {{plan.value}}</p>
+			<label class="label" for="gift_amount">Amount:</label>
+                        <input id="gift_amount" type="text" value=""  size="30" name="gift[amount]"></input>
+
+		{% endif %}
+		</td></tr>
+		<tr><td>	
+		<label class="label" for="gift_message_announce">Message for gift:</label>
+		<textarea cols="40" id="gift_message_announce" name="gift[message]" rows="20" tabindex="3"></textarea>
+		</td></tr>
+		
+		<tr><td>
+			<label class="label" for="gift_recipient_email">Recipient email address:</label>
+			<input id="gift_recipient_email" type="text" value=""  size="30" name="gift[send_to]"></input>
+		</td></tr>
+		</table>	
+
+            <br/>
+            <button class="btn btn-primary" type="submit" name="submit">Buy </button>
+        </form>
+	
+
+</div></div></div>
+</div></div>
+</div>
+{% endblock%}
+
+{% block body_content_block%}
+{% endblock %}

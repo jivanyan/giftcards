@@ -29,8 +29,8 @@ import decimal
 
 class Patron(models.Model):
         user            = models.OneToOneField(User, related_name='patron')
-
-        picture         = models.ImageField(upload_to = 'profile_pictures',
+	
+        picture         = models.ImageField(upload_to = 'profile_picture',
                                       blank = True)
 	account 	= models.OneToOneField(PatronAccount, related_name = 'patron')
 	class Meta:
@@ -39,57 +39,39 @@ class Patron(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-	
-	def buy_giftcard(self, gcplan_id, recipient_email, message, value):
+	def pay_for_giftcard(self, giftcard):
 		"""
-		Buys a giftcard of the given type and sends to the recipient. Must do active checks
-		of account validness and balance availability. A transaction object should be created
+		Pays for the specified giftcard which is created and maybe sent already
+		Should raise exception in case the giftcard is already paid or its remainder is 0
 		"""
-		gc_plan = GiftCardPlan.objects.get(id = gcplan_id)
-		card = GiftCard(plan = gc_plan,
-				buyer = self.user,
-				send_to = recipient_email, 
-				#buyed_at = datetime.datetime.utcnow().replace(tzinfo=utc),
-				message = message)
+		account = self.account
+		if giftcard.remainder == 0 or giftcard.paid == True:
+			raise Exception("Nothing to pay for") 
+			
+		if giftcard.plan.price == 0:
+			summa = giftcard.remainder
+		else:		
+			summa = giftcard.plan.price	
+		print summa
+		print account.balance, summa
 
-		if gc_plan.value != 0:
-			card.remainder = gc_plan.value
-			price = gc_plan.price
-		else:
-			price, card.remainder = value, value
-		
-		# TODO
-		# check transaction validity: 
-		#	1. If the gift card plan is 0, the user entered price does not exceed his balance or
-		#   The user is allowed to pay later and the balance - price does not exceed the allowed limit
-		#	2. 
+		print account.balance - summa
+		if account.balance >= summa:
+			print "MUST PAY"
 		with transaction.commit_on_success():
-			self.change_balance( decimal.Decimal(-price))
-			card.activate()
-			card.send_to_recipient()
-			card.save()
-			card.register_in_history(comment = _("Created"), master = self.user)				
-		return u"%s" % (card.id) 
-		
-	#@transaction.atomic
-	def sell_giftcard(self, gift_card_id):
-		"""
-		Sells the owned giftcard back to the service site at the price defined by 
-		settings.GIFT_CARD_SELL_BACK_RETURN_PERCENT
-		"""
-		try:
-			card = Giftcard.objects.get(hash_id = gift_card_id)
-           	except GiftCard.DoesNotExist:
-        		print "No Such giftcard"
-			#raise Http404 			
-		cashback = decimal.Decimal((card.price * settings.GIFT_CARD_SELL_BACK_RETURN_PERCENT) / 100)
-		with transaction.commit_on_success():
-			self.change_balance(cashback)
-			card.deactivate()
-			card.register_in_history(comment = _("Created"), master = self.user)
+			if account.balance >= summa:
+				print "Befor", account.balance
+				account.balance = account.balance - summa
+				print "After", account.balance
+				account.save()
+				giftcard.paid = True
+				giftcard.save("PAID", self.user, summa)
+	
+		return giftcard.paid
+
 				
 	
-	def change_account_balance(self, summa):
+	def debit_account(self, summa):
 		"""
 		Charges the account balance by the given summa. Should raise also signals
 		to activate the frozen giftcards
@@ -101,8 +83,11 @@ class Patron(models.Model):
                 #          	The user is allowed to pay later and the balance - price does not exceed the allowed limit
                 #       	2. 
 		#	c. register transaction
-		account = self.account
-		balance = account.balance + summa
-		account.balance = balance
-		account.save()
-		return account
+		
+		if summa > 0:
+			account = self.account
+			balance = account.balance + summa
+			account.balance = balance
+			account.save()
+			return account
+		return summa

@@ -21,6 +21,7 @@ def user_login(request):
 	next_link = ""
 	if request.GET:
 		next_link = request.GET['next']
+		
 	if request.method == 'POST':
 		next_link = request.POST['login_next']
 		username = request.POST['login']
@@ -29,10 +30,15 @@ def user_login(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				if next_link == "":
-					return HttpResponseRedirect('/giftcards/')
+				if hasattr(user, 'merchant'):
+					return HttpResponseRedirect('/merchant/home')
+				elif hasattr(user, 'patron'):
+					if next_link == "":
+						return HttpResponseRedirect('/giftcards/')
+					else:
+						return HttpResponseRedirect(next_link)
 				else:
-					return HttpResponseRedirect(next_link)
+					return HttpResponseRedirect('/giftcards/')
 			else:
 				return render_to_response('login.html',{'message':"Your account is disabled"}, context)
 		else:
@@ -60,7 +66,7 @@ def user_signup(request):
 		user.set_password(user.password)
 		user.save()
 		patron = Patron(user = user)
-		account = PatronAccount(balance = 0, frozen_sum = 0, frozen = False, valid = True )
+		account = PatronAccount(balance = 0,  frozen = False, valid = True )
 		account.save()
 		patron.account = account
 		patron.save()

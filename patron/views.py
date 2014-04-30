@@ -23,13 +23,28 @@ def transactions(request):
         context_dict = {'transactions':True}
         return render_to_response('patron/transactions.html', context_dict, context)
 
+@login_required
 def sent_giftcards(request):
         context = RequestContext(request)
         context_dict = {'sent_giftcards':True}
+	giftcards = GiftCard.objects.filter(buyer = request.user).order_by('-buyed_at')
+	context_dict['giftcards'] = giftcards
         return render_to_response('patron/sent_giftcards.html', context_dict, context)
+
+
+
+@login_required
 def sold_giftcards(request):
         context = RequestContext(request)
         context_dict = {'sold_giftcards':True}
-        return render_to_response('patron/sent_giftcards.html', context_dict, context)
+	ids = GiftCardHistoryItem.objects.filter(master = request.user, comment = "SOLD").values('card')
+	giftcards = GiftCard.objects.filter(id__in = ids)
+	for card in giftcards:
+		card.sell_price = GiftCardHistoryItem.objects.get(card = card, comment = "SOLD").amount
+		card.sold_at = GiftCardHistoryItem.objects.get(card = card, comment = "SOLD").timestamp
+		
+	context_dict['giftcards'] = giftcards
+	
+        return render_to_response('patron/sold_giftcards.html', context_dict, context)
 
 

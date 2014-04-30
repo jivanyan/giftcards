@@ -9,7 +9,7 @@
  .ui-state-disabled {cursor: default !important}
   .ui-icon {display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat}
   .ui-widget-overlay {position: absolute; top: 0; left: 0; width: 100%; height: 100%}
-  .ui-widget {font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: 1.1em}
+  .ui-widget {font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: 1.2em}
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: 1em}
 .ui-widget-content {border: 1px solid #a6c9e2; background: #fcfdfd url(/images/jquery-ui/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x; color: #222222}
 .ui-widget-content a {color: #222222}
@@ -373,7 +373,7 @@ caption {background:#eee;}
 .added {background:#060;color:#fff;}
 .removed {background:#900;color:#fff;}
 .first {margin-left:0;padding-left:0;}
-.last {margin-right:0;padding-right:0;}
+.last {margin-right:100px;padding-right:0;}
 .top {margin-top:0;padding-top:0;}
 .bottom {margin-bottom:0;padding-bottom:0;}
  label {font-weight:bold;}
@@ -424,7 +424,7 @@ form.inline p {margin-bottom:0;}
 .span-21 {width:830px;}
 .span-22 {width:870px;}
 .span-23 {width:910px;}
-.span-24, div.span-24 {width:950px;margin-right:0;}
+.span-24, div.span-24 {width:950px;left:100px; margin:0 auto; }
 .span-26, div.span-26 {width:1030px;margin-right:0;}
 .span-30, div.span-30 {width:1190px;margin-right:0;}
  .span-31, div.span-31 {width:1190px;margin-right:0;}

@@ -8,14 +8,14 @@
 
 {% block body_content_block %}
 
-<div id="main_content" class="span-24 last">
+<div id="main_content" class="span-24 last" >
 <div class="raised_box"> <div class="box_middle_right"><div class="box_middle_left"><div class="content">
 <div class="shadow_box" style="padding-left:30px; "> 
 <div class="box_middle"><div class="content"> 
-<table class="layout">
+<table class="layout" style = "position:relative; left : 75px" >
 <tr>
        	<td style="vertical-align:top; padding-right:20px; width: 200px">
-      		<h2>Returning Customers</h2>
+      		<h2>Registered Customers</h2>
       		<hr />
            	<form action="/login/" class="login_form display_form_errors_inline" method="post">
               		{% csrf_token %}
@@ -54,8 +54,6 @@
               		</table>
             	</form>
           </td>
-
-          <td style="width:1px; background-color:#DDD;"></td>
 
           <td style="vertical-align:top; padding-left:20px; width:230px;">
           	<h2>New Customers</h2>

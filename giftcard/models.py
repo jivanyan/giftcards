@@ -1,109 +1,125 @@
-from django.db import models
+from django.db import models , transaction
 import datetime
 from account.models import CurrencyField 
 from django.contrib.auth.models import User
 from django.utils.timezone import utc
 import hashlib
 
-def _createHash():
-	"""
-	This function generate 10 character long hash
-	"""
-    	hash = hashlib.sha1()
-    	hash.update(str(time.time()))
-    	return  hash.hexdigest()[:-10]
+def giftcardplan_logo_path(instance, filename):
+
+	if hasattr(instance, 'merchants'):
+		if instance.merchants.count() <= 1:
+			merchant = instance.merchants.all()[0]
+			s =  '/'.join(['merchants', merchant.user.username, "{0}".format(instance.id), filename])
+	else:
+		s = '/'.join(['groupgiftcards', instance.name, filename])
+	print s
+	return s
+
 
 class GiftCardCategory(models.Model):
-	name = models.CharField(verbose_name = 'giftcard category',
+	name = models.CharField(verbose_name = 'Giftcard Category',
 				max_length = 64,
 				unique = True)
 	class Meta:
-		db_table = 'gift_card_categories'
+		db_table = 'giftcard_categories'
 
 	def __unicode__(self):
         	return u"%s " % (self.name)
 
 
+
+
 class GiftCardPlan(models.Model):
-	merchant	= models.ForeignKey('merchant.Merchant',
-					related_name = 'gift_card_plans')
+	merchants        = models.ManyToManyField('merchant.Merchant',
+                                        related_name = 'all_gift_card_plans',
+					blank = True,
+					through = 'MerchantGiftCardPlanRelationship')
+        categories      = models.ManyToManyField(GiftCardCategory,
+                                        related_name = 'gift_card_plans',
+                                        blank = True)
+	name 		= models.CharField(verbose_name = 'Name', max_length = 128, blank = True, default = '')	
+	website		= models.URLField(verbose_name = 'Website', blank = True)
+	value		= CurrencyField(verbose_name = 'Value', max_digits = 10,
+						 decimal_places=2, default = 0)
+	price		= CurrencyField(verbose_name = 'Price', max_digits = 10, 
+                                                 decimal_places=2, default = 0)
 
-	value		= CurrencyField(verbose_name = 'amount',
-					max_digits=8,
-                                        decimal_places=2,
-                                        default = 0)
-	categories	= models.ManyToManyField(GiftCardCategory,
-					related_name = 'all_gift_card_plans')				
-					
-	price		= CurrencyField(verbose_name = 'price',
-					max_digits=8,
-                                        decimal_places=2,
-                                        default = 0)
-	max_count	= models.IntegerField(verbose_name = 'allowed count', blank = True, null = True)
-	description	= models.CharField(max_length = 128, blank = True)
-	is_active	= models.BooleanField(verbose_name = 'is active', default = True, )
-	exp_time	= models.IntegerField(verbose_name = 'valid through', default = 365)
-	logo		= models.ImageField(upload_to = 'giftcards', blank = True)
+	created_date	= models.DateTimeField(verbose_name = 'Date Created', auto_now_add=True,
+			                         null=True, blank=True)
 	
+ 	max_count	= models.IntegerField(verbose_name = 'allowed count', default = 0, blank = True, null = True)
+	description	= models.TextField(max_length = 2048, blank = True)
+	is_active	= models.BooleanField(verbose_name = 'is active', default = True)
+	exp_time	= models.DateTimeField(verbose_name = 'valid through', blank = True)
+	logo		= models.ImageField(upload_to = giftcardplan_logo_path, blank = True)
+ 	views 		= models.IntegerField(default = 0)		
+	sold		= models.IntegerField(default = 0)
 	class Meta:
-		#unique_together = ('owner', 'value', 'price')
-		db_table = 'giftcard_plans'
+		db_table = 'giftcard_plans'	
 	def __unicode__(self):
-                return u"%s - %s" % (self.merchant.name, self.description)
-
-
+                return "%s - %s" % (self.name, self.id)
 
 class GiftCard(models.Model):
-	hash_code      	= models.CharField(verbose_name = 'hash_code',
+	hash_code      	= models.CharField(verbose_name = 'Hash Code',
 	                                max_length=16,
-        	                        null=True,
-        	                        blank=True,
         	                        db_index=True)
-	code		= models.CharField(verbose_name='code',
-                                        max_length=16,
-                                        null=True,
-                                        blank=True,
-                                        db_index=True)
-	plan 		= models.ForeignKey(GiftCardPlan,
-					related_name = 'cards')
-	buyer		= models.ForeignKey(User,
-					related_name = 'buyed_cards')
-	send_to		= models.EmailField(verbose_name = 'sent to')
+	code		= models.CharField(verbose_name='Code',
+                                        max_length=12,
+					db_index = True,
+					unique = True)
+	plan 		= models.ForeignKey('GiftCardPlan', related_name = 'giftcards')
+	buyed_at 	= models.DateTimeField(verbose_name = 'Date Created',auto_now_add=True,
+                                                 null=True, blank=True )
+	buyer		= models.ForeignKey(User,related_name = 'buyed_cards')
+	send_to		= models.EmailField(verbose_name = 'Send To')
 
-	remainder	= CurrencyField(verbose_name = 'remainder',
-					max_digits=8,
-                                        decimal_places=2,
-                                        default = 0)
-	recipient_name  = models.CharField(max_length = 64,
+	remainder	= CurrencyField(verbose_name = 'Remainder',
+					max_digits = 10, 
+					decimal_places=2,
+					default = 0)
+
+	recipient_name 	= models.CharField(verbose_name = 'Recipient Name', max_length = 64,
 					blank = True,
 					null = True)
-	sender_name     = models.CharField(max_length = 64,
-					blank = True,
-					null = True) 
-	message		= models.TextField(max_length = 1024,
+	recipient_phone = models.CharField(verbose_name='Phone Number',
+                                        max_length=128,
+                                        null=True,
+                                        blank=True)
+
+	sender_name 	= models.CharField(verbose_name = 'Sender Name', max_length = 64,
 					blank = True,
 					null = True)
-	valid 		= models.BooleanField(default = True,
-					editable = False)
+	message		= models.TextField(verbose_name = 'Message', max_length = 1024,
+					blank = True,
+					null = True)
+	valid 		= models.BooleanField(verbose_name = 'Is Valid', default = True, editable = False)
+	paid		= models.BooleanField(verbose_name = 'Paid', default = False,
+					blank = True)
 	class Meta:
 		db_table = 'giftcards'
-		unique_together = ('plan', 'buyer', 'send_to', 'message')
+
 	def __unicode__(self):
-                return u"%s - %s" % (self.plan.description, self.id)
+                return u"%s-%s" % (self.id, self.code)
 	
-	def activate(self):
-		#create New History Item
-		self.valid = True
-		self.save()
+	def activate(self, comment, master, money):
+		
+		with transaction.commit_on_success():
+			self.valid = True
+			self.save(comment, master, money)
+					
 		return self
 
-	def deactivate(self):
-		#Create New History Item
-		self.valid = False
-		self.save()
+	def deactivate(self, comment, master, money):
+		
+		with transaction.commit_on_success():
+                        self.valid = False
+                        self.save(comment, master, money )
+                                       
+
 		return self
 
-	def charge(self, summa):
+	def redeem(self, summa, master):
 		#create a history item with comment "Charged summa"
 		#decrease the reminder
 		rem = self.remainder
@@ -116,43 +132,60 @@ class GiftCard(models.Model):
 			debt = summa - rem
 			accepted = False
 		self.remainder = rem
-		self.save()
+		self.save("REDEEMED", master, summa)
 		return accepted, debt, rem
 	
-	def register_in_history(self, comment, master):
+	def register_history_item(self, comment, master, money):
 		h = GiftCardHistoryItem(card = self,
                                                 comment = comment,
                                                 timestamp = datetime.datetime.utcnow().replace(tzinfo=utc),
-                                                master = master)
+                                                master = master,
+						amount = money)
+	
                 h.save()
-
+	
+	def generate_code(self):
+		hash = hashlib.md5()
+		hash.update("%s%s%s%s%s%s" % (self.buyed_at, self.plan.id, self.buyer.username, self.send_to, self.buyed_at, self.message ) )
+		self.code = hash.hexdigest()[:12]
+		hash = hashlib.sha1()
+		hash.update("%s" % (self.code) )
+		self.hash_code = hash.hexdigest()
+		
 	def send_to_recipient(self):
 		#TODO 
 		pass
 
-	def save(self):		
+	def save(self, comment = None, master = None, amount = None ):		
 		if not self.id:
-			#The hash_id should be generated according to special algorithm yet to be chosen
-			#hash_id is the unique code of the gift card which is used during selling or redeeming
-			hash = hashlib.sha1()
-			hash.update("%s%s" % (self.buyer.username, self.plan.merchant.name ))
-			self.hash_id = hash.hexdigest()			
-			value = GiftCardPlan.objects.get(id = self.plan.id).value
-
-		super(GiftCard, self).save()
+			super(GiftCard, self).save()
+			self.register_history_item("CREATED", self.buyer, self.remainder)
+		else:
+			super(GiftCard, self).save()
+			self.register_history_item(comment, master, amount)
+		
+class MerchantGiftCardPlanRelationship(models.Model):
+	merchant 	= models.ForeignKey('merchant.Merchant', related_name = 'merchant_giftcardplans')
+	giftcardplan 	= models.ForeignKey(GiftCardPlan, related_name = 'giftcardplan_merchants')
+	created_at	= models.DateTimeField(verbose_name = 'Created at', auto_now_add=True,
+                                                 null=True, blank=True )
+	class Meta:
+		db_table = 'merchant_giftcardplan_relationship'
+	def __unicode__(self):
+		return self.id
 
 class GiftCardHistoryItem(models.Model):
 	card		= models.ForeignKey(GiftCard, related_name = "history items")
-	comment 	= models.CharField(max_length = 128)
-	timestamp	= models.DateTimeField()
-	master		= models.ForeignKey(User, verbose_name = "master of change")	
-	
+	comment 	= models.CharField(verbose_name = 'Comment', max_length = 128)
+	timestamp	= models.DateTimeField(verbose_name = 'Timestamp',auto_now_add=True,
+                                                 null=True, blank=True )
+	master		= models.ForeignKey(User, verbose_name = "Change Master")	
+	amount		= CurrencyField(verbose_name = 'Transaction Amount', max_digits = 10, 
+                                                 decimal_places=2, default = 0)
 	class Meta:
-                db_table = 'giftcards_history_items'
-
+                db_table = 'giftcard_history_items'
 	def __unicode__(self):
                 return u"%s - %s - %s" % (self.comment, self.timestamp, self.master.username)
-
 
 
 

@@ -1,0 +1,79 @@
+{% extends 'merchant/merchant_home_base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block body_main_block %}
+
+<div id="main_content" class="span-24 last">
+
+<div class="span-12" style="margin-bottom: 20px;">
+  <div class="raised_box_with_header">
+    <div class="box_top_right"><div class="box_top_left"><div class="header">New Gift Card</div></div></div>
+	<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+
+
+        <form class="span6" id="category_form" method="post" action="/merchant/home/new-giftcard-plan/" enctype="multipart/form-data"  >
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}<br/>
+            {{ field }}<br/>
+            {% endfor %}
+
+            <br/>
+            <button class="btn btn-primary" type="submit" name="submit">Create </button>
+        </form>
+
+
+    </div></div></div>
+
+
+
+    <div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+  </div>
+</div>
+
+<div class="span-12 last">
+ <div class="raised_box_with_header">
+   <div class="box_top_right"><div class="box_top_left"><div class="header">How it Works</div></div></div>
+     <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+        <p>
+          Have unused gift cards? Cardpool gives you an easy way to sell gift cards for cash and other valuable items.
+        </p>
+        <p>
+          Selling more than $5,000 in gift cards?  Learn about <a href="/bulk-seller-program">Bulk Sales</a>.
+        </p>
+        <hr />
+        <p>
+          <strong>Step 1: Get Offers</strong><br />
+          Tell us which gift cards you'd like to sell for cash.
+        </p>
+        <p>
+          <strong>Step 2: Transfer Gift Cards</strong><br />
+          Sell your gift cards electronically - no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.
+no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.
+no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.
+no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.
+no mailing required, or mail your gift cards using our FREE SHIPPING LABEL.
+
+        </p>
+        <p>
+          <strong>Step 3: Get Paid</strong><br />
+          We'll send you a check within 24 hours of receiving your gift cards.
+        </p>
+        <p class="bottom">
+          Questions? To learn more about selling gift cards, <a href="/support/how-it-works">click here</a>.
+        </p>
+      </div></div></div>
+    <div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+  </div>
+</div>
+
+</div>
+{% endblock%}
+

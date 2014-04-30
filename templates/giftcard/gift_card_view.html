@@ -1,0 +1,274 @@
+{% extends 'giftcard/giftcards_base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block body_main_block %}
+<div id="main_content" class="span-24 last"><div class="merchant_panel raised_box_with_header">
+<div class="span-12" style="margin-bottom: 20px;">
+	<img alt="/media/{{merchant.picture}}" height="250" src="/media/{{giftcardplan.logo}}" style="padding-left:20px;" width="400" />
+</div>
+
+<div class="span-12 last">
+ <div class="raised_box_with_header">
+    <h1>{{giftcardplan.name}}{% trans " GIFT CARD" %}</h1>
+
+		<p>		
+		<a href= {{ giftcardplan.website}} class="ga_track_link:href={{giftcardplan.website}}" target="_blank">&raquo;{% blocktrans%}Visit{% endblocktrans %} {{giftcardplan.name}} </a>
+				
+		</p>
+		
+		<table name = "parameters">
+				{% if giftcardplan.price %}
+				<tr>
+					<td>
+						<p><strong> {%trans "PRICE" %}</strong></p>
+					</td>
+					 <td>
+						<p>{{giftcardplan.price|stringformat:"d"}}</p>
+                                        </td>
+
+				</tr>
+				{% endif %}
+				<tr>
+                                        <td>
+                                                <p><strong>{% if not giftcardplan.price %}
+								{%trans "MINIMUM " %}
+							   {% endif %}
+							 {%trans "VALUE" %}</strong></p>
+                                        </td>
+                                         <td>
+                                                <p>{{giftcardplan.value|stringformat:"d"}}</p>
+                                        </td>
+
+                                </tr>
+				<tr>
+                                        <td>
+                                                <p><strong> {%trans "VALID THROUGH" %}</strong></p>
+                                        </td>
+                                         <td>
+                                                <p>{{giftcardplan.exp_time|date}}</p>
+                                        </td>
+
+                                </tr>
+	
+
+			</table>
+			
+			<div id = "buy_giftcard">
+				<h3><a href = "{{giftcardplan.id}}/buy/"> Buy Giftcard </h3?
+			</div>
+
+
+
+     </div></div></div>
+ </div>
+</div>
+
+</div></div>
+
+<div id = "content"  >
+<div id = "maincontent">
+
+
+
+
+<div id = "main_content" class = "span-24 last"><div class = "merchant_panel raised_box_with_header">
+<div class = "raised_box"><div class = "box_middle_right"><div class = "box_middle_left"><div class = "content">
+
+
+
+{% include "giftcard/bluebox.html" %}
+
+
+{% if merchant_other_plans %}
+<div class="box_top_right"><div class="box_top_left"><div class="header">
+	 Other Gift Cards from {{merchant.name}}
+<p></p>	
+ </div></div></div>
+
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div id="card_list_container">
+  <table id="card_list" class="data_list bottom">
+    <tr class="physical ebuy mobile_delivery header">
+      <th style="width: 70px" colspan = "2" ><span class="ie6_hack_force_no_wrap">Logo</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Price</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Value</span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Created </span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Expiration Date</span></th>
+    </tr>
+        {% for p in merchant_other_plans %}
+           <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="{{merchant.name}}{{p.value}}">
+                <td style="width: 284px;">
+                        <a href = "/giftcards/{{p.id}}">
+                                <img alt= "{{p.price}}/{{p.value}}" height="32" src="/media/{{p.logo}}" width="50" />
+                        </a>
+                </td>
+                <td style="width: 80px;"></td>
+                <td>{{p.price|stringformat:"d"}}</td>
+                <td>{{p.value|stringformat:"d"}}</td>
+                <td>{{p.created_date|date:'Y-m-d '}}</td>
+                <td>{{p.exp_time|date:'Y-m-d '}}</td>
+           </tr>
+        {% empty %}
+        {% endfor %}
+</table>
+</div>
+
+</div></div></div>
+<div class="blue_box" style="text-align: center;">
+</h4>
+</div>
+{% endif%}
+
+
+<div class="box_top_right"><div class="box_top_left"><div class="header">
+        {% trans "Related Gift Cards" %}
+</div></div></div>
+
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+        {% include "giftcard/giftcards_list_as_a_table.html" with plans=related_plans %}
+</div></div></div>
+
+</div></div></div>
+
+</div></div></div></div>
+
+</div></div>
+
+</div></div>
+{% endblock %}
+
+
+
+
+{% block footer %}
+{% endblock %}
+
+{% block body_main_block_for_backup %}
+
+
+
+<div id="main_content" class="span-24 last"><div class="merchant_panel raised_box_with_header">
+
+
+
+<div class="raised_box"> <div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<table class="layout">
+	<tr>
+        	<td style="width: 250px;">
+        		<img alt="/media/{{merchant.picture}}" height="250" src="/media/{{giftcardplan.logo}}" style="padding-left: 100px;" width="400" />
+        	</td>
+        	<td style="padding-left: 20px;">
+         		<h1  >
+				{{giftcardplan.name}}{% trans " GIFT CARD" %}
+			</h1>
+          		<p>
+				
+				<a href= {{ giftcardplan.website}} class="ga_track_link:href={{giftcardplan.website}}" target="_blank">&raquo;{% blocktrans%}Visit{% endblocktrans %} {{giftcardplan.name}} </a>
+				
+			</p>
+			
+			<p>{{giftcardplan.description }} </p>
+			<table name = "parameters">
+				<tr>
+					<td>
+						<p><strong> {%trans "PRICE" %}</strong></p>
+					</td>
+					 <td>
+						<p>{{giftcardplan.price}}</p>
+                                        </td>
+
+				</tr>
+				<tr>
+                                        <td>
+                                                <p><strong> {%trans "VALUE" %}</strong></p>
+                                        </td>
+                                         <td>
+                                                <p>{{giftcardplan.value}}</p>
+                                        </td>
+
+                                </tr>
+				<tr>
+                                        <td>
+                                                <p><strong> {%trans "VALID THROUGH" %}</strong></p>
+                                        </td>
+                                         <td>
+                                                <p>{{giftcardplan.exp_time|date}}</p>
+                                        </td>
+
+                                </tr>
+	
+
+			</table>
+			
+			<div id = "buy_giftcard">
+				<h3><a href = "{{giftcardplan.id}}/buy/"> Buy Giftcard </h3?
+			</div>
+			
+        	</td>
+      	</tr>
+</table>
+</div></div></div></div>
+
+
+{% include "giftcard/bluebox.html" %}
+
+
+{% if merchant_other_plans %}
+<div class="box_top_right"><div class="box_top_left"><div class="header">
+                Other Gift Cards from {{merchant.name}}
+ </div></div></div>
+
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div id="card_list_container">
+  <table id="card_list" class="data_list bottom">
+    <tr class="physical ebuy mobile_delivery header">
+      <th style="width: 70px" colspan = "2" ><span class="ie6_hack_force_no_wrap">Logo</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Price</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Value</span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Created </span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Expiration Date</span></th>
+    </tr>
+        {% for p in merchant_other_plans %}
+           <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="{{merchant.name}}{{p.value}}">
+                <td style="width: 284px;">
+                        <a href = "/giftcards/{{p.id}}">
+                                <img alt= "{{p.price}}/{{p.value}}" height="32" src="/media/{{p.logo}}" width="50" />
+                        </a>
+                </td>
+                <td style="width: 80px;"></td>
+                <td>{{p.price}}</td>
+                <td>{{p.value}}</td>
+                <td>{{p.created_date|date:'Y-m-d '}}</td>
+                <td>{{p.exp_time|date:'Y-m-d '}}</td>
+           </tr>
+        {% empty %}
+        {% endfor %}
+</table>
+</div>
+
+</div></div></div>
+<div class="blue_box" style="text-align: center;">
+</h4>
+</div>
+{% endif%}
+
+<div class="box_top_right"><div class="box_top_left"><div class="header">
+	{% trans "Related Gift Cards" %}
+</div></div></div>
+
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+	{% include "giftcard/giftcards_list_as_a_table.html" with plans=related_plans %}
+</div></div></div>
+
+</div></div></div>
+
+{% endblock%}
+
+{% block body_content_block %}
+{% endblock %}
+
+
+
+
