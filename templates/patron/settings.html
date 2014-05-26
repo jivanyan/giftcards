@@ -10,7 +10,26 @@
   <h2>Account Settings</h2>
   <hr />
 
-  <form action="/account/edit" class="edit_user" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=" /></div>
+<script>
+
+function myFunction() {
+    var pass1 = document.getElementById("user_password").value;
+    var pass2 = document.getElementById("user_password_confirmation").value;
+    var ok = true;
+    if (pass1 != pass2) {
+        alert("Passwords Do not match");
+        document.getElementById("user_password").style.borderColor = "#E34234";
+        document.getElementById("user_password_confirmation").style.borderColor = "#E34234";
+        ok = false;
+    }
+    return ok;
+}
+</script>
+
+
+
+  <form action="/account/edit/" class="edit_user" id="edit_user" method="post" onsumbit="return myFunction()"  >
+	{% csrf_token %}
     <div class="gray_box" style="padding-top: 40px; padding-bottom: 40px;">
       <table class="layout bottom" style="width: 500px; margin: 0 auto;">
 
@@ -20,7 +39,7 @@
           <strong>Full Name: {{user.first_name}} {{user.sur_name}}</strong>
         </td>
         <td style="text-align: right;">
-          (<a id="change_name_link" class="pointer" onclick = "toggle_visibility('change_name_ui');" >change</a>)
+          (<a id="change_name_link" class="pointer" >change</a>)
         </td>
       </tr>
       <tr>
@@ -40,7 +59,7 @@
 	   <tr>	
 	      <td>
 		<label for = "user_sur_name"> Last Name</label><br />
-                <input class="input_large_300" id="user_sur_name" name="user[sur_name]" size="30" type="text" value=" {{user.last_name}}" />
+                <input class="input_large_300" id="user_sur_name" name="user[last_name]" size="30" type="text" value=" {{user.last_name}}" />
 
               </td>
 
@@ -54,7 +73,7 @@
           <strong>Email: {{user.email}} </strong>
         </td>
         <td style="text-align: right;">
-          (<a id="change_email_link" class="pointer" onclick = "toggle_visibility('change_email_ui');" >change</a>)
+          (<a id="change_email_link" class="pointer" >change</a>)
         </td>
       </tr>
       <tr>
@@ -68,14 +87,7 @@
             <tr>
               <td>
                 <label for="user_email">New Email</label><br />
-                <input class="input_large_300" id="user_email" name="user[email]" size="30" type="text" value="" />
-
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="user_email_confirmation">Confirm New Email</label><br />
-                <input class="input_large_300" id="user_email_confirmation" name="user[email_confirmation]" size="30" type="text" value="" />
+                <input class="input_large_300" id="user_email" name="user[email]" size="30" type="text" placeholder = "..." value="" />
 
               </td>
             </tr>
@@ -88,7 +100,7 @@
           <strong>Password: *******</strong>
         </td>
         <td style="text-align: right;">
-          (<a id="change_password_link" class="pointer" onclick = "toggle_visibility('change_password_ui');"  >change</a>)
+          (<a id="change_password_link" class="pointer">change</a>)
         </td>
       </tr>
       <tr>
@@ -102,14 +114,14 @@
             <tr>
               <td>
                 <label for="user_password">New Password</label><br />
-                <input class="input_large_300" id="user_password" name="user[password]" size="30" type="password" />
+                <input class="input_large_300" id="user_password" name="user[password]" size="30" type="password" placeholder = "..."  value = "" />
 
               </td>
             </tr>
             <tr>
               <td>
                 <label for="user_password_confirmation">Confirm New Password</label><br />
-                <input class="input_large_300" id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" />
+                <input class="input_large_300" id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password"  placeholder = "..."  value = "" />
 
               </td>
             </tr>
@@ -120,17 +132,7 @@
  <!--Submit-->
       <tr>
         <td>
-	<button class="btn btn-success" type="submit">Save Changes</button>	
-        <!--<span class="blue_button submit_button bottom" style="width: 120px;">
-		<a href="/account/edit">
-		<span class="button_right" style="cursor: pointer;">
-		<span class="button_left">
-		<span class="button_text">Save Changes
-		</span>
-		</span>
-		</span>
-		</a>
-	</span>-->
+	<input type="submit" class = "btn btn-primary" value="Save Changes">
         </td>
       </tr>
     </table>

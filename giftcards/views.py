@@ -75,7 +75,6 @@ def user_signup(request):
                         if user.is_active:
                                 login(request, user)
 
-		print "{0}-{1}-{2}-{3}-{4}".format(request.POST['user[full_name]'],request.POST['user[email]'],request.POST['user[password]'],patron.id,account.id)
 		if next_link == "":
 			return HttpResponseRedirect('/giftcards')
 		else:

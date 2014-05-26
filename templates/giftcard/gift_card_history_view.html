@@ -1,0 +1,37 @@
+
+<!DOCTYPE HTML>
+
+
+<hr style = "position:relative; left:-40px"/>
+<hr style = "position:relative; left:-40px"/>
+
+<h1 style = "textalign:center">CODE:      {{card.code}} </h1> <h1>REMAINDER: {{card.remainder}}</h1>
+
+
+<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div id="card_list_container">
+  <table id="card_list" class="data_list bottom">
+    <tr class="physical ebuy mobile_delivery header">
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Master name</span></th>
+      <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Comment</span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Amount </span></th>
+      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Timestamp</span></th>
+    </tr>
+        {% for h in history_items %}
+           <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="{{merchant.name}}{{p.value}}">
+                <td>{{h.mastername}}</td>
+		<td>{{h.comment}}
+                <td>{{h.amount|stringformat:"d"}}</td>
+                <td>{{h.timestamp}}</td>
+           </tr>
+        {% empty %}
+        {% endfor %}
+</table>
+</div>
+
+</div></div></div>
+
+
+<hr style = "position:relative; left:-40px"/>
+<hr style = "position:relative; left:-40px"/>
+

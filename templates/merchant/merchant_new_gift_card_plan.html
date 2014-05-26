@@ -13,9 +13,59 @@
 	<div class="box_middle_right"><div class="box_middle_left"><div class="content">
 
 
-        <form class="span6" id="category_form" method="post" action="/merchant/home/new-giftcard-plan/" enctype="multipart/form-data"  >
+        <form class="span6" id="category_form" method="post" action="/merchant/new-giftcard-plan/" enctype="multipart/form-data"  >
+
+		<table class="layout">
+                        <tr>
+                        	<td>
+                                	<label for="value"> Value</label>
+					<br/>
+                                	<input class = "input_large_200" id="value" name="value" type="number"  min="0" max="200000" /><br/>
+                        	</td>
+                        </tr>
+                        <tr>
+                        	<td>
+                                	<label for="price">Price</label>
+					<br/>
+                                	<input class="input_large_200" id="price" name="price" type="number" /><br/>
+                                
+                        	</td>
+                        </tr>
+
+                         <tr>
+                                <td>    
+                                        <label for="logo">Logo</label>
+                                        <br/>
+					<br/>
+                                        <input  id="Logo" name="Logo" type="file" /><br/>
+                                
+                                </td>
+                        </tr>
+
+			<tr>
+                                <td>
+                                        <label for="description">Description</label>
+                                        <br/>
+					<textarea cols="40" id="description" name="description" rows="10"></textarea><br/>
+                                        
+                                
+                                </td>
+                        </tr>
+			 <tr>
+                                <td>
+                                        <label for="exp_date">Expiration Date</label>
+                                        <br/>
+                                        <input  id="exp_date" class = "datepicker hasDatepicker" name="exp_date" type="text" />
+                                
+                                </td>
+                        </tr>
+
+
+		</table>
+
+
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
+<!--            {% for hidden in form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
 
@@ -24,7 +74,7 @@
             {{ field.help_text }}<br/>
             {{ field }}<br/>
             {% endfor %}
-
+-->
             <br/>
             <button class="btn btn-primary" type="submit" name="submit">Create </button>
         </form>

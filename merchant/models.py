@@ -3,11 +3,16 @@ from django.contrib.auth.models import User
 from giftcard.models import GiftCardHistoryItem
 from account.models import CurrencyField
 from django.conf import settings
-import hashlib
+from giftcard.models import GiftCard	
+import hashlib, math
+from decimal import Decimal
 
 
 def merchant_image(instance, filename):
     return '/'.join(['merchants', instance.user.username, filename])
+
+def image_path(instance, filename):
+    return '/'.join(['merchants', instance.merchant.user.username, 'pictures',  filename])
 
 
 class Merchant(models.Model):
@@ -40,14 +45,17 @@ class Merchant(models.Model):
 	picture 	= models.ImageField(verbose_name = 'Picture',
 					 	upload_to = merchant_image,
 					 	blank = True)
+	
+	#images 		= models.ManyToManyField(Image, related_name = 'merchant_images', blank = True)
 	phone    	= models.CharField(verbose_name='Phone Number',
                                   		max_length=128,
                                   		null=True,
                                   		blank=True)
-	lat          = models.FloatField(verbose_name='Latitude',
+	email		= models.EmailField(blank = True, null = True)
+	lat          	= models.FloatField(verbose_name='Latitude',
                                    null=True,
                                    blank=True)
-	lng          = models.FloatField(verbose_name='Longitude',
+	lng          	= models.FloatField(verbose_name='Longitude',
                                    null=True,
                                    blank=True)
 
@@ -73,23 +81,64 @@ class Merchant(models.Model):
 			gc.save()		
 			commission = (gc.price * settings.GIFT_CARD_COMMISION_PERCENT) / 100
 			
-		#reserve money from merchant account to giftcard site account
+		#reserve money from merchant account to giftcard site accoun
+	
+	def register_transaction(self, giftcard, charge, comment = '', id = ''):
+		transaction = Transaction(merchant = self, comment = comment, purchase_item_id = id, amount = charge, giftcard= giftcard)
+		transaction.save()
+		#TODO	SEND E_MAIL TO MERCHANT ADMIN
+		return transaction
 
 	def __unicode__(self):
                 return self.name
+
+
+class Image(models.Model):
+        id              = models.CharField(primary_key = True, max_length=255)
+        merchant        = models.ForeignKey(Merchant, related_name = 'images')
+        image           = models.FileField(upload_to = image_path, max_length=255)
+        upload_date     = models.DateTimeField(auto_now_add = True)
+
+
+
 
 class Transaction(models.Model):
-	merchant 	= models.ForeignKey(Merchant, related_name = 'Transactions')
-	timestamp	= models.DateTimeField(verbose_name = 'timestamp', auto_now_add = True)
-	comment 	= models.TextField(verbose_name = 'Comment', max_length = 512)
-	purchase_id	= models.CharField(verbose_name = 'Purchase ID', max_length = 32,blank = True, default = '')
-	amount		= CurrencyField(verbose_name = 'Price', max_digits = 10, decimal_places=2, default = 0)
-	giftcard_code 	= models.CharField(verbose_name = 'Giftcard code', max_length=12)
-	
+	merchant 		= models.ForeignKey(Merchant, related_name = 'transactions')
+	timestamp		= models.DateTimeField(verbose_name = 'Timestamp', auto_now_add = True)
+	comment 		= models.TextField(verbose_name = 'Comment', max_length = 512,default = '')
+	purchase_item_id	= models.CharField(verbose_name = 'Purchase ID', max_length = 32,blank = True, default = '')
+	amount			= CurrencyField(verbose_name = 'Price', max_digits = 10, decimal_places=2, default = 0)
+	giftcard 		= models.ForeignKey(GiftCard, related_name = 'giftcard_transactions')
+	class Meta:
+		db_table = 'merchant_transactions'
+	def create_payment_request(self):
+		giftcardplan = self.giftcard.plan
+		price  = giftcardplan.price
+		value  = giftcardplan.value
+		if price == value or price == 0:
+			request_amount = self.amount
+		elif price != 0 and price != value:
+			percent = Decimal(giftcardplan.price / Decimal(giftcardplan.value))
+			request_amount = Decimal(math.floor(percent * Decimal(self.amount)))
+		request_amount = math.floor((1 - (self.merchant.commission / Decimal(100))) * request_amount)
+		request = MerchantPaymentRequest(transaction = self, satisfied = False, amount = request_amount)
+		request.save()
+		#TODO SEND MAIL TO NVERCARD manager
+		return request
 	def __unicode__(self):
-                return self.name
+                return u'%s:ID(%s)' % (self.merchant.name, self.id)
 		
-
+class MerchantPaymentRequest(models.Model):
+	#EACH PAYMENT REQUEST SHOULD BE BOUND WITH ONE TRANSACTION
+	transaction 	= models.OneToOneField(Transaction, related_name = 'Payment Request')
+	satisfied	= models.BooleanField(verbose_name = 'Fulfilled', default = False)
+	amount 		= CurrencyField(verbose_name = 'Requested amount', max_digits = 10, decimal_places = 2, default = 0)
+	fulfilled_at	= models.DateTimeField(verbose_name = 'Fulfilled at', blank = True, null = True)
+	
+	class Meta:
+		db_table = 'merchant_payment_requests'
+	def __unicode__(self):
+		return u'%s' % (self.transaction.merchant.name)
 
 
 

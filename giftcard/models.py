@@ -1,8 +1,9 @@
 from django.db import models , transaction
-import datetime
+import datetime, time
 from account.models import CurrencyField 
 from django.contrib.auth.models import User
 from django.utils.timezone import utc
+from django.core.mail import send_mail
 import hashlib
 
 def giftcardplan_logo_path(instance, filename):
@@ -13,7 +14,6 @@ def giftcardplan_logo_path(instance, filename):
 			s =  '/'.join(['merchants', merchant.user.username, "{0}".format(instance.id), filename])
 	else:
 		s = '/'.join(['groupgiftcards', instance.name, filename])
-	print s
 	return s
 
 
@@ -48,7 +48,6 @@ class GiftCardPlan(models.Model):
 	created_date	= models.DateTimeField(verbose_name = 'Date Created', auto_now_add=True,
 			                         null=True, blank=True)
 	
- 	max_count	= models.IntegerField(verbose_name = 'allowed count', default = 0, blank = True, null = True)
 	description	= models.TextField(max_length = 2048, blank = True)
 	is_active	= models.BooleanField(verbose_name = 'is active', default = True)
 	exp_time	= models.DateTimeField(verbose_name = 'valid through', blank = True)
@@ -100,7 +99,7 @@ class GiftCard(models.Model):
 		db_table = 'giftcards'
 
 	def __unicode__(self):
-                return u"%s-%s" % (self.id, self.code)
+                return u"%s" % ( self.code)
 	
 	def activate(self, comment, master, money):
 		
@@ -146,15 +145,16 @@ class GiftCard(models.Model):
 	
 	def generate_code(self):
 		hash = hashlib.md5()
-		hash.update("%s%s%s%s%s%s" % (self.buyed_at, self.plan.id, self.buyer.username, self.send_to, self.buyed_at, self.message ) )
+		hash.update("%s%s%s%s%s%s" % (self.buyed_at, self.plan.id, self.buyer.username, self.send_to, str(time.time()), self.message ) )
 		self.code = hash.hexdigest()[:12]
 		hash = hashlib.sha1()
 		hash.update("%s" % (self.code) )
 		self.hash_code = hash.hexdigest()
 		
 	def send_to_recipient(self):
-		#TODO 
-		pass
+		send_mail('New Giftcard', self.message, 'NVERCARD@nvercard.com',
+		    [self.send_to], fail_silently=False)
+		
 
 	def save(self, comment = None, master = None, amount = None ):		
 		if not self.id:
@@ -172,7 +172,7 @@ class MerchantGiftCardPlanRelationship(models.Model):
 	class Meta:
 		db_table = 'merchant_giftcardplan_relationship'
 	def __unicode__(self):
-		return self.id
+		return u"%s/%s" % (self.giftcardplan.name, self.merchant.name)
 
 class GiftCardHistoryItem(models.Model):
 	card		= models.ForeignKey(GiftCard, related_name = "history items")

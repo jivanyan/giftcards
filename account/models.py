@@ -30,7 +30,7 @@ class PatronAccount(Account):
 	class Meta:
 		db_table = 'patron_accounts'
 	def __unicode__(self):
-		return u"%s" % (self.patron.user.first_name + self.patron.user.last_name)
+		return u"%s %s" % (self.patron.user.first_name,  self.patron.user.last_name)
 
 
 class MerchantAccount(Account):
@@ -38,7 +38,8 @@ class MerchantAccount(Account):
 	account_holder_name     = models.CharField(max_length = 32)
         routing_number 		= models.CharField(max_length = 16)
 	account_number		= models.CharField(max_length = 16)
-        class Meta:
+	class Meta:
                 db_table = 'merchant_accounts'
-        
+        def __unicode__(self):
+		return u'%s' % (self.merchant.name)
 

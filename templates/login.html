@@ -10,9 +10,9 @@
 
 <div id="main_content" class="span-24 last" >
 <div class="raised_box"> <div class="box_middle_right"><div class="box_middle_left"><div class="content">
-<div class="shadow_box" style="padding-left:30px; "> 
+<div class="shadow_box">
 <div class="box_middle"><div class="content"> 
-<table class="layout" style = "position:relative; left : 75px" >
+<table class="layout" style = "position:relative; left : 0px" >
 <tr>
        	<td style="vertical-align:top; padding-right:20px; width: 200px">
       		<h2>Registered Customers</h2>
@@ -23,33 +23,53 @@
 			<table class="layout">
                 	<tr>
                 	<td>
-                   		<label for="login">Email</label>
-                    		<input class="login_email input_large_full" id="login" name="login" type="text" />
+                   		<label for="login">Email / Username</label>
+                    		<input class="login_email input_large_full"     autocomplete="off"   placeholder = "Email" id="login" name="login" type="text" />
                 	</td>
                 	</tr>
                 	<tr>
                 	<td>
                     		<label for="password">Password</label>
-                    		<input class="login_password input_large_full" id="password" name="password" type="password" />
+                    		<input class="login_password input_large_full" id="password" placeholder = "Password" name="password" type="password" />
 			        <input type="hidden" name="login_next" value="{{ next }}" />
 	
                     		<p><a href="/reset-password">Forgot your password?</a></p>
                 	</td>
                 	</tr>
+	<!--	<tr>
+			<td>  
+            <span class="validation_error">{{ captcha_response }}</span>  
+          
+            <script type="text/javascript"  
+            src="http://api.recaptcha.net/challenge?k=6Le22vMSAAAAABGiGXstYLtsJjVIbEJj2iApDNnS">  
+            </script>  
+              
+            <noscript>  
+            <iframe src="http://api.recaptcha.net/noscript?k=6Le22vMSAAAAABGiGXstYLtsJjVIbEJj2iApDNnS"  
+            height="300" width="500" frameborder="0"></iframe><br>  
+            <textarea name="recaptcha_challenge_field" rows="3" cols="40">  
+            </textarea>  
+            <input type="hidden" name="recaptcha_response_field"   
+            value="manual_challenge">  
+            </noscript>  
+        <td>  
+		</tr>	-->	
                 	<tr>
+			
                 	<td>
 				<button class="btn btn-success" type="submit">Login</button>
-
-                   		<span class="blue_button bottom" style="width: 75px;">
-					<a href="/giftcards/" class="login_button submit_button">
-					<span class="button_right" style="cursor: pointer;">
-					<span class="button_left"><span class="button_text">Login</span></span></span>
-					</a>
-				</span>
+                   		
 				{% if message %}
-					<p> {{ message }} </p>
+					<div class="flashes">
+                            				<div class="error">{{ message }}</div>
+                
+              				</div>
+					
 				{% endif %}
                 	</td>
+
+
+
                 	</tr>
               		</table>
             	</form>
@@ -66,30 +86,39 @@
                 	<tr>
 	                  	<td>
         	            		<label for="user_full_name">First Name </label>
-                	       		<input class="input_large_full" id="user_full_name" name="user[full_name]" size="30" type="text" value=" " />
+                	       		<input class="input_large_full" id="user_full_name"  autocomplete="off"   name="user[full_name]" placeholder = "First Name" size="30" type="text" value=" " />
                   		</td>
                 	</tr>
 			<tr>
                                 <td>
                                         <label for="user_sur_name">Second Name </label>
-                                        <input class="input_large_full" id="user_sur_name" name="user[sur_name]" size="30" type="text" value=" " />
+                                        <input class="input_large_full" id="user_sur_name" name="user[sur_name]" autocomplete="off"  size="30" type="text" value=" " />
                                 </td>
                         </tr>
 
                 	<tr>
                  		<td>
                     			<label for="user_email">Email </label>
-                        		<input class="input_large_full" id="user_email" name="user[email]" size="30" type="text" />
+                        		<input class="input_large_full" id="user_email" name="user[email]"  autocomplete="off"   size="30" type="text" />
                   		</td>
                 	</tr>
                 	<tr>
                   		<td>
                     			<label for="user_password">Password </label>
-                              		<input class="input_large_full" id="user_password" name="user[password]" size="30" type="password" />
+                              		<input class="input_large_full" id="user_password"  autocomplete="off"   name="user[password]" size="30" type="password" />
 					<input type="hidden" name="signup_next" value="{{ next }}" />
 
                   		</td>
                 	</tr>
+			<tr>
+                                <td>
+                                        <label for="user_password">Confirm Password </label>
+                                        <input class="input_large_full" id="user_password" name="user[password]"  autocomplete="off"  size="30" type="password" />
+                                        <input type="hidden" name="signup_next" value="{{ next }}" />
+
+                                </td>
+                        </tr>
+
                 	<tr>
                   		<td>
                      			<table class="layout">
@@ -99,26 +128,42 @@
                         			</td>
                         			<td style="vertical-align: top">
                         				<div style="margin-left: 6px;">
-                        					<label for="opt_in_to_email_newsletter" style="font-weight: normal; font-size: 10px;">Please send me member-only discounts and news about Cardpool.</label>
+                        					<label for="opt_in_to_email_newsletter" style="font-weight: normal; font-size: 10px;">Please send me member-only discounts and news about NverCard.</label>
                         				</div>
                         			</td>
                        			</tr>
                       			</table>
                     		</td>
                   	</tr>
+
+
+   <!-- <tr>            
+                        <td>
+            <span class="validation_error">{{ captcha_response }}</span>
+
+            <script type="text/javascript"  
+            src="http://api.recaptcha.net/challenge?k=6Le22vMSAAAAABGiGXstYLtsJjVIbEJj2iApDNnS">
+            </script>
+
+            <noscript>
+            <iframe src="http://api.recaptcha.net/noscript?k=6Le22vMSAAAAABGiGXstYLtsJjVIbEJj2iApDNnS"  
+            height="300" width="500" frameborder="0"></iframe><br>
+            <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+            </textarea>
+            <input type="hidden" name="recaptcha_response_field"   
+            value="manual_challenge">
+            </noscript>
+        <td>
+                </tr>
+-->
+
 			<tr>
 				<td>
 					
                     			<div style="margin-top: 10px;">
 					<button class="blue_button btn btn-success signup_button submit_button "type="submit">Signup</button>
 
-                      			<span class="blue_button bottom" style="width: 82px;">
-		      			<a href="" class="signup_button submit_button">
-					<span class="button_right" style="cursor: pointer;">
-					<span class="button_left">
-					<span class="button_text">Signup</span></span></span>
-		      			</a></span>
-                    			</div>
+                      			</div>
                   		</td>
                 	</tr>
               	</table>
@@ -126,11 +171,11 @@
 	</td>
 </tr>
 </table>
-</div></div>
+</div></div></div>
 <div class="box_bottom"><!-- ie_hack: ie6 sucks --></div>
 </div>
 </div></div></div>
-</div></div>
+</div>
 
 
 
@@ -141,77 +186,6 @@
 
 
 
-
-{% block body_content1_block %}
-<div id="main_content" class="span-24 last">
-      <div id="container" class="wrapper">
-      <div class="main">
-	<div class="LoginPage"><div class="page-header">
-    		<h1>Welcome Back</h1>
-    	</div>
-
-  	<div class="success-notification"> </div>
-
-	<div class="column11 first">
-    	<div class="page-intro">Evernote helps you remember everything across all the computers, phones and tablets you use.</div>
-      	<div class="Tour"><div class="evernote-tour">
-    		<div class="tour-container">
-      			<div class="tour1">
-          			<h4>Capture anything</h4>
-          			<p>Save your ideas, tasks, projects, files, research, and more.</p>
-      			</div>
-    		</div>
-    		<div class="tour-container">
-      			<div class="tour2">
-        			<h4>Access anywhere</h4>
-			        <p>Evernote makes all of your memories available anywhere you go.</p>
-		        </div>
-		</div>
-		<div class="tour-container last">
-      			<div class="tour3">
-		        	<h4>Find everything fast</h4>
-        			<p>Search by keyword, tag, and even find text inside images.</p>
-      			</div>
-    		</div>
-  	</div></div></div>
-
-  	<div class="column11">
-    	<div class="LoginForm"><div class="callout-box">
-    	<div class="reg-header">
-      		<h3>Sign in<span class="switch"> 
-              	<form id="switchForm" action="/Registration.action" method="post">or&nbsp;
-                <a id="switchLink">Create an Account</a>
-              	<input type="hidden" name="showSwitchService" value="true" /><input type="hidden" name="targetUrl" value="/Home.action" /><div style="display: none;"><input type="hidden" name="_sourcePage" value="FZOAyvaIXLTiMUD9T65RG_YvRLZ-1eYO3fqfqRu0fynRL_1nukNa4gH1t86pc1SP" /><input type="hidden" name="__fp" value="2BR8pKPsmTg=" /></div></form></span>
-          	</h3>
-      	</div>
-    	<div class="signin">
-      		<form id="login_form" name="login_form" action="/Login.action" method="post">
-		<label>Email address or username</label>
-		<input id="username" maxlength="64" name="username" class="text" type="text" />
-			<script type="text/javascript">setTimeout(function(){try{var z=document.getElementById('username');
-							z.focus();z.select();}catch(e){}},1);
-			</script>
-			<div id="username_errors" class="form_errors"></div>
-		<label>Password</label>
-		<input id="password" maxlength="64" name="password" class="text" type="password" /><div class="checkbox-container">
-    		<input id="rememberMe" name="rememberMe" value="true" class="checkbox" type="checkbox" />
-		<label class="checkbox-text">Remember me for a week</label>
-  	</div>
-	<input id="login" name="login" value="Sign in" class="super-emphasize" type="submit" />
-	<input type="hidden" name="showSwitchService" value="true" /><input type="hidden" name="targetUrl" value="/Home.action" /><div style="display: none;"><input type="hidden" name="_sourcePage" value="hlE1BXO_PJniMUD9T65RG_YvRLZ-1eYO3fqfqRu0fynRL_1nukNa4gH1t86pc1SP" /><input type="hidden" name="__fp" value="UY1fJ3DoNT43yWPvuidLz-TPR6I9Jhx8" /></div></form><a href="https://www.evernote.com/ForgotPassword.action?targetUrl=%2FHome.action" target="_top" class="password">
-          Reset your password?</a>
-      </div>
-    </div>
-</div></div>
-
-</div></div>
-
-<div class="shadow wrapper">
-</div>
-
-</div>
-</div>
-{% endblock %}
 
 
 

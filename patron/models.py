@@ -52,42 +52,31 @@ class Patron(models.Model):
 			summa = giftcard.remainder
 		else:		
 			summa = giftcard.plan.price	
-		print summa
-		print account.balance, summa
-
-		print account.balance - summa
-		if account.balance >= summa:
-			print "MUST PAY"
 		with transaction.commit_on_success():
 			if account.balance >= summa:
-				print "Befor", account.balance
 				account.balance = account.balance - summa
-				print "After", account.balance
 				account.save()
 				giftcard.paid = True
 				giftcard.save("PAID", self.user, summa)
 	
 		return giftcard.paid
-
-				
-	
 	def debit_account(self, summa):
 		"""
 		Charges the account balance by the given summa. Should raise also signals
 		to activate the frozen giftcards
 		"""
 		# TODO
-		#	a. the summa should be casted to decimal
-		# 	b. check transaction validity: 
-                #       	1. If the gift card plan is 0, the user entered price does not exceed his balance or
-                #          	The user is allowed to pay later and the balance - price does not exceed the allowed limit
-                #       	2. 
-		#	c. register transaction
-		
+		# a. the summa should be casted to decimal
+		# b. check transaction validity:
+                	# 1. If the gift card plan is 0, the user entered price does not exceed his balance or
+                	# The user is allowed to pay later and the balance - price does not exceed the allowed limit
+                	# 2.
+		# c. register transaction
+
 		if summa > 0:
 			account = self.account
 			balance = account.balance + summa
 			account.balance = balance
 			account.save()
-			return account
-		return summa
+		return account
+		

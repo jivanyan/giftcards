@@ -36,7 +36,7 @@
       <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">ID</span></th>
     </tr>
         {% for g in giftcards %}
-           <tr id="card_{{g.id}}" class="odd card_row card_in_listing physical" title="a in pea pod the physical">
+           <tr id="card_{{g.id}}" class="odd card_row " title="{{g.id}}">
                 <td style="width: 284px;" colspan = "2">
                         <a href = "/giftcards/{{g.plan.id}}">
                                 <img alt= "{{g.price}}/{{g.value}}" height="32" src="/media/{{g.plan.logo}}/" width="50" />
@@ -67,9 +67,9 @@
 </td>
 </tr>
 </table>
-</div></div></div>
 </div></div>
-</div>
+
+
 
 
 

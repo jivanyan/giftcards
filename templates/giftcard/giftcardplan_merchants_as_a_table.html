@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+
+
+<table class="bottom merchants_grid">
+<tbody>
+	
+	{% for m in merchants %}
+	{% if forloop.counter0|divisibleby:6 %}<tr>{% endif %}
+	<td id = "m{{p.id}}"  class="merchant_cell" title="{{merchant.name}}"  >
+
+
+		<a href="/merchant/{{m.url}}" class="">
+                <img alt="{{merchant.name}}" height="60" src="/media/{{m.picture}}" width="88"><br>
+                <span class="merchant_link_name_text" style="display: block; margin: 3px 0 0 0;">{{m.name}}</span>
+              </a>
+
+	
+	</td>
+	{% if forloop.counter|divisibleby:5 or forloop.last %}</tr>{% endif %}
+	{% endfor %}
+
+
+
+        </tbody>
+</table>
+
+
+

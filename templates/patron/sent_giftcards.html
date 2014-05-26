@@ -2,25 +2,30 @@
 {% load i18n %}
 
 {% block title_block %}
-        {% trans "Account Settings" %}
+        {% trans "Sent Giftcards" %}
 {% endblock %}
 
 
 {% block account_content %}
 
 <div id="main_content" class="span-24 last">
+
+
+<div id = "giftcard_view"> </div>
+
+
+<!--
 <div class="span-12" style="margin-bottom: 20px;">
 <div class="raised_box_with_header">
 <div class="box_middle_right"><div class="box_middle_left"><div class="content">
-
 <table class="layout">
 <tr>
 
 
-<td style="vertical-align: top; width: 999999990%;">
+<td style="vertical-align: top; width: 90%;">
         <div class="span-18 last">  <div class="raised_box_with_header">
 
-
+-->
 <div class="box_middle_right"><div class="box_middle_left"><div class="content">
 <div id="card_list_container">
 
@@ -36,10 +41,9 @@
       <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Buyed</span></th>
       <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Code</span></th>
       <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Paid</span></th>
-      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Valid</span></th>	
     </tr>
         {% for g in giftcards %}
-           <tr id="card_{{g.id}}" class="odd card_row card_in_listing physical" title="a in pea pod the physical">
+           <tr id="card_{{g.id}}" class="odd card_row card_in_listing physical" >
                 <td style="width: 284px;">
                         <a href = "/giftcards/{{g.plan.id}}">
                                 <img alt= "{{g.price}}/{{g.value}}" height="32" src="/media/{{g.plan.logo}}/" width="50" />
@@ -51,20 +55,16 @@
                 <td>{{g.remainder|stringformat:"d"}}</td>
 		<td>{{g.send_to}}
                 <td>{{g.buyed_at|date:'Y-m-d '}}</td>
-                <td>{{g.code}}</td>
+                <td><button class = "gift_card_view_history btn btn-primary"  code = "{{g.code}}" >{{g.code}}</input></td>
                 <td>
                         {% if g.paid %}
                                 YES
                         {% else %}
-                         	<a href = "/"> PAY </a>       
+				<button class="pay_gift_card btn btn-success" code = "{{g.code}}" >Վճարել</button>
+			
+                         	      
                         {% endif %}
                 <td>
-		<td>{% if g.valid %}
-			YES
-		    {% else %}
-			NO
-		    {%endif%}	
-   		</td>
 
            </tr>
         {% empty %}
@@ -74,19 +74,7 @@
 </div></div></div>
 </div>
 
-</td>
-</tr>
-</table>
-</div>
-</div></div></div>
-</div>
 
-</td>
-</tr>
-</table>
-</div></div></div>
-</div></div>
-</div>
 
 
 

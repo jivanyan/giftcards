@@ -9,25 +9,38 @@
     // Appease XHTML validation:
     // <![CDATA[ 
     $(document).ready(function() {
-      //Navigation.init();
-      //OverlayForms.init(true, "TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=");
-      //ShoppingCart.init(false);
-      //FeedbackForm.init("TLvPeHGCekQNMLOVOBZ/8Fpf5zNT9tfitHL5E5RW7c4=");
-      //Main.init();
-      //Tracking.init();
-      //Ratings.init();
-
-            
+           
 	  $("#change_name_link").click(function() { $("#change_name_ui").toggle() });
 	  $("#change_email_link").click(function() { $("#change_email_ui").toggle() });
 	  $("#change_password_link").click(function() { $("#change_password_ui").toggle() });
 
-    });
-    // ]]>
-  </script>
+
+
+    
+
+        $('.gift_card_view_history').click(function(){
+                var code;
+		code = $(this).attr('code')
+                $.get('/giftcards/gift_card_history_view/', {code: code}, function(data){
+                        $('#giftcard_view').html(data);
+                });
+        });      
+	
+	 $('.pay_gift_card').click(function(){
+                var code;
+                code = $(this).attr('code')
+                $.get('/giftcards/pay_gift_card_view/', {code: code}, function(data){
+                        $('#giftcard_view').html(data);
+                });
+        });      
+
+
+
+});
+    
+</script>
 
 <script type="text/javascript">
-<!--
     function toggle(id) {
        var e = document.getElementById(id);
        if(e.style.display == 'block')
@@ -35,7 +48,7 @@
        else
           e.style.display = 'block';
     }
-//-->
+
 </script>
 {% endblock %}
 
@@ -43,18 +56,22 @@
 {% block body_main_block %}
 <div class="span-24 last">
   <div class="raised_box">
-    <div class="box_top_right"><div class="box_top_left"><!-- ie_hack: ie6 sucks --></div></div>
     <div class="box_middle_right"><div class="box_middle_left"><div class="content_extra_padding">
-	<div class="gray_box" style="text-align: center;"  >
-
-		 <label for="card_code">Enter Gift Card Code to check</label><br />
-                 <input class="input_large_200" id="card_code" name="card[code]" size="12" type="text" />
-                 <button class="btn btn-primary" type="submit" name="submit"> Enter </button>
 	
-	</div>	
-	<hr/>
+
+
+	
+<!--		<div id = "giftcard_view">	
+			<div class="gray_box" style="text-align: center;"  >
+				<label for="card_code">Enter Gift Card Code to check</label><br />
+                		<input class="input_large_200" id="card_code" name="card[code]" size="12" type="text" />
+                		<button class="btn btn-primary" type="submit" name="submit"> Enter </button>
+	
+			</div>	
+		</div>
+-->
+
       <div class="easy_to_read_styles">
-     	<h1> Account Info </h1>   
         <div class="secondary_nav">
           <div class="left">
             <ul>
@@ -65,12 +82,12 @@
 		
 		{% endif %}
 		
-		{% if not transactions %}
+	<!--	{% if not transactions %}
 			<li><a href="/account/transactions" class="selected">Transactions</a></li>
 		{% else %}
 			<li><a href="/account/transactions" class="">Transactions</a></li>
 		{% endif %}
-
+-->
 	        {% if not sold_giftcards %}
 			<li><a href="/account/sold-giftcards" class="selected">Sold Giftcards</a></li>
 		{% else %}
@@ -92,13 +109,12 @@
 
  {% block account_content %}
  {% endblock %}		
-        </div>
+	</div>
       </div>
     </div></div></div>
-  </div>
-</div>
+  
 
-</div>
+
 
     
 {% endblock%}

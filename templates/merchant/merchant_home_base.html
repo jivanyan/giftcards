@@ -4,6 +4,9 @@
 <html>
 <head>
 	<link href="{% static 'css/base_packaged.css' %}" media="all" rel="stylesheet" type="text/css" />
+	<script src= "{% static 'js/jquery-2.1.0.js' %}" type = "text/javascript"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 	<title>
 		{% block title_block %}
 			"GiftCard"
@@ -11,6 +14,50 @@
 	</title>
 	{% block javascript %}
 	{% endblock %}
+
+
+<script type="text/javascript">
+    // Appease XHTML validation:
+    // <![CDATA[ 
+    $(document).ready(function() {
+           
+        $("#change_name_link").click(function() { $("#change_name_ui").toggle() });
+        $("#change_email_link").click(function() { $("#change_email_ui").toggle() });
+        $("#change_password_link").click(function() { $("#change_password_ui").toggle() });
+
+        $('.deleteplan').click(function(){
+                var code;
+                id = $(this).attr('code')
+		//$( "#delete_plan_notification" ).dialog();		
+                $.get('/merchant/delete-gift-card-plan/', {id: id}, function(data){
+			window.location="/merchant/gift-card-plans/";
+                   
+                });
+		
+        });      
+	$(function() {
+                $( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+
+
+});
+    
+</script>
+
+
+<script type="text/javascript">
+    function toggle(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block'; 
+    }
+    
+</script>
+
+
+
 </head>
 <body>
 {% block body_header_block %}
@@ -41,7 +88,7 @@
 	
             	</div>
             	<div class="contact">
-            		<a href="/support/how-it-works" style="font-size: 14px;">Questions?  Contact Us</a>
+            		<a href="/" style="font-size: 14px;">Questions?  Contact Us</a>
             	</div>
        </td>
        </tr>
@@ -55,27 +102,27 @@
 <div id="main_nav" class="span-24 last">
       <ul id="popup_nav" class="left nav_button_bar">
         <li class="nav_button_container">
-          <a href="/merchant/home/gift-card-plans" class="nav_button ga_track_event:category=clicks:action=buy:opt_label=nav_bar">Gift Card Plans</a>
+          <a href="/merchant/gift-card-plans" class="nav_button ga_track_event:category=clicks:action=buy:opt_label=nav_bar">Gift Card Plans</a>
         </li>
-        <li class="nav_button_container">
+<!--        <li class="nav_button_container">
           <a href="/merchant/home/new-giftcard-plan" class="nav_button ga_track_event:category=clicks:action=sell:opt_label=nav_bar">Add New Gift Card Plan</a>
-		<div class="sub"> 
-            <ul style="width: 280px;"> 
-              <li><a href="/sell-gift-cards">Sell Gift Cards For Cash</a></li> 
-              <li><a href="/sell/gift-cards-for-amazon-gift-card">Sell Gift Cards For Amazon.com Gift Card</a></li>
-                          </ul> 
-          </div> 
+		 
+        </li>
+-->
+        <li class="nav_button_container">
+          <a href="/merchant/sold-gift-cards" class="nav_button ga_track_event:category=clicks:action=how_it_works:opt_label=nav_bar">Active Gift Cards</a>
         </li>
 
-        <li class="nav_button_container">
-          <a href="/merchant/home/sold-gift-cards" class="nav_button ga_track_event:category=clicks:action=how_it_works:opt_label=nav_bar">Sold Gift Cards</a>
-        </li>
+	<li class="nav_button_container">
+          <a href="/merchant/transactions" class="nav_button" >Transactions</a>
+          </li>
+
         </ul>
       <div class="right">
 	
         <ul class="nav_button_bar">
           <li class="nav_button_container">
-          <a href="/shopping-cart" class="nav_button" id="shopping_cart_link">Transactions (<span id="shopping_cart_count">{{balance}}</span>)</a>
+          <a href="/merchant/settings" class="nav_button">Settings</a>
           </li>
         </ul>
 	
@@ -91,21 +138,21 @@
 
 <div class="span-12" style="margin-bottom: 20px;">
   <div class="raised_box_with_header">
-    <div class="box_top_right"><div class="box_top_left"><div class="header">Redeem Gift Card</div></div></div>
     <div class="box_middle_right"><div class="box_middle_left"><div class="content">
        	<form action="/merchant/home/" class="new_card" id="new_card" method="post">
 	{% csrf_token %}
 	<table class="bottom">
           <tr>
             <td>
-		{% if message %}
-              		<p> {{message}} </p>
-                        <br/>
-                {% endif %}
 
               <label for="card_code">Enter Card Code</label><br />
               <input class="input_large_200" id="card_code" name="card[code]" size="30" type="text" value = "{{code}}" ></input>
               <button class="btn btn-primary" type="submit" name="submit"> Check </button>
+		 {% if message %}
+                        <p> {{message}} </p>
+                        <br/>
+                {% endif %}
+
             </td>
           </tr>
 	{% if giftcard %}

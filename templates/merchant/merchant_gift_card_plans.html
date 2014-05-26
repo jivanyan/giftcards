@@ -5,68 +5,74 @@
 
 {% block body_main_block %}
 <div id="main_content" class="span-24 last">
-<div class="span-12" style="margin-bottom: 20px;">
 <div class="raised_box_with_header">
-<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+<div class="box_middle_right"><div class="box_middle_left"><div class="content"
 
 
-<table class="layout">
-<tr>
+<div class="right" style = "position:relative; left:750px">
+<a href="/merchant/new-giftcard-plan" >
+<button class = "btn btn-success" > Add New Gift Card Plan </button>
+</a>
+</div>
 
 
-<td style="vertical-align: top; width: 999999990%;">
-	<div class="span-18 last">  <div class="raised_box_with_header">
-        <div class="box_top_right"><div class="box_top_left"><div class="header">You have {{plans|length}} valid gift card plans </div></div></div>
-            
-          
-<div class="box_middle_right"><div class="box_middle_left"><div class="content">
+
+   <div class="box_header_extra_spacing" >
+                        <h1>                             
+                        	Ակտիվացրեք/ապաակտիվացրեք Ձեր ստեղծած նվեր քարդի ցանկացած տեսակը     
+                        </h1>
+                        <h2 class="secondary_header" style="margin: 0;">
+			     	Ակտիվացնելուց ուշադիր եղեք նվեր քարդի տվյալ տեսակի վավերականության ժամկետին 
+    			</h2>
+			<div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+			<div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+<div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+<div class="box_bottom_right"><div class="box_bottom_left"><!-- ie_hack: ie6 sucks --></div></div>
+                </div>
+
+
+ 
+
 <div id="card_list_container">
   <table id="card_list" class="data_list bottom">
     <tr class="physical ebuy mobile_delivery header">
-      <th style="width: 284px" colspan="2"><span class="ie6_hack_force_no_wrap">Logo</span></th>
+      <th style="width: 100px"><span class="ie6_hack_force_no_wrap">Logo</span></th>
       <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Price</span></th>
       <th style="width: 70px" ><span class="ie6_hack_force_no_wrap">Value</span></th>
-      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Created </span></th>
-      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Expiration Date</span></th>	
-      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Is Valid</span></th>	
-      <th style="width: 150px" ><span class="ie6_hack_force_no_wrap">Solded</span></th>	
+      <th style="width: 100px" ><span class="ie6_hack_force_no_wrap">Created </span></th>
+      <th style="width: 100px" ><span class="ie6_hack_force_no_wrap">Expiration Date</span></th>	
+      <th style="width: 100px" ><span class="ie6_hack_force_no_wrap">SOLD</span></th>	
+    		
+      	
     </tr>
 	{% for p in plans %}
-	   <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="a in pea pod the physical">
-      		<td style="width: 284px;">
+	   <tr id="card_{{p.id}}" class="odd card_row card_in_listing physical" title="{{p.id}}">
+      		<td style="width: 100px;">
         		<a href = "/merchant/home/">
         	  		<img alt= "{{p.logo}}" height="48" src="/media/{{p.logo}}/" width="75" />
         		</a>
       		</td>
-      		<td style="width: 200px;">
-        	</td>
+     
+        	
       		<td>{{p.price}}</td>
       		<td>{{p.value}}</td>
       		<td>{{p.created_date|date:'Y-m-d '}}</td>
       		<td>{{p.exp_time|date:'Y-m-d '}}</td>
-      		<td>
-			{% if p.is_active %}
-				YES
-			{% else %}
-				NO
-			{% endif %}
-		<td>
 		<td>{{p.sold}}</td>
+		{% if p.is_active %}
+		<td><button class="deleteplan btn btn-primary" code = "{{p.id}}" >Deactivate</button></td>
+		{% else %}
+		<td><button class="deleteplan btn btn-success" code = "{{p.id}}" >Activate</button></td>
+
+		{% endif %}
         
     	   </tr>
 	{% empty %}
 	{% endfor %}
 </table>
-</div>
-</div></div></div>
-</div>
 
-</td>
-</tr>
-</table>
-</div></div></div>
 </div></div>
-</div>
+</div></div></div>
 
 {% endblock %}
 ~                                                                                                                                                         

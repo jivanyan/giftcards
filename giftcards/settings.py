@@ -11,90 +11,6 @@ TEMPLATE_DEBUG = DEBUG
 
 #*******************************************************************
 #**********                                          ***************
-#**********         Multiuploader  Settings          ***************
-#**********                                          ***************
-#*******************************************************************
-
-
-MULTIUPLOADER_FILES_FOLDER = MEDIA_PATH 
-MULTIUPLOADER_FORMS_SETTINGS ={
-'default': {
-    'FILE_TYPES' : ["txt","zip","jpg","jpeg","flv","png"],
-    'CONTENT_TYPES' : [
-            'image/jpeg',
-            'image/png',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.ms-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'application/vnd.oasis.opendocument.text',
-            'application/vnd.oasis.opendocument.spreadsheet',
-            'application/vnd.oasis.opendocument.presentation',
-            'text/plain',
-            'text/rtf',
-                ],
-    'MAX_FILE_SIZE': 10485760,
-    'MAX_FILE_NUMBER':10,
-    'AUTO_UPLOAD': True,
-},
-'images':{
-    'FILE_TYPES' : ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'tiff', 'ico' ],
-    'CONTENT_TYPES' : [
-        'image/gif',
-        'image/jpeg',
-        'image/pjpeg',
-        'image/png',
-        'image/svg+xml',
-        'image/tiff',
-        'image/vnd.microsoft.icon',
-        'image/vnd.wap.wbmp',
-        ],
-    'MAX_FILE_SIZE': 10485760,
-    'MAX_FILE_NUMBER':5,
-    'AUTO_UPLOAD': True,
-},
-'video':{
-    'FILE_TYPES' : ['flv', 'mpg', 'mpeg', 'mp4' ,'avi', 'mkv', 'ogg', 'wmv', 'mov', 'webm' ],
-    'CONTENT_TYPES' : [
-        'video/mpeg',
-        'video/mp4',
-        'video/ogg',
-        'video/quicktime',
-        'video/webm',
-        'video/x-ms-wmv',
-        'video/x-flv',
-        ],
-    'MAX_FILE_SIZE': 10485760,
-    'MAX_FILE_NUMBER':5,
-    'AUTO_UPLOAD': True,
-},
-'audio':{
-    'FILE_TYPES' : ['mp3', 'mp4', 'ogg', 'wma', 'wax', 'wav', 'webm' ],
-    'CONTENT_TYPES' : [
-        'audio/basic',
-        'audio/L24',
-        'audio/mp4',
-        'audio/mpeg',
-        'audio/ogg',
-        'audio/vorbis',
-        'audio/x-ms-wma',
-        'audio/x-ms-wax',
-        'audio/vnd.rn-realaudio',
-        'audio/vnd.wave',
-        'audio/webm'
-        ],
-    'MAX_FILE_SIZE': 10485760,
-    'MAX_FILE_NUMBER':5,
-    'AUTO_UPLOAD': True,
-}}
-
-
-
-
-#*******************************************************************
-#**********                                          ***************
 #**********         Application Specific Settings    ***************
 #**********                                          ***************
 #*******************************************************************
@@ -102,10 +18,29 @@ MULTIUPLOADER_FORMS_SETTINGS ={
 GIFT_CARD_COMMISION_PERCENT		 = 10
 GIFT_CARD_SELL_BACK_RETURN_PERCENT	 = 80
 
+GIFTCARD_NOTIFICATION_RECEIVER_EMAIL = "ajivanyan@aua.am"
+GIFTCARDPLAN_NOTIFICATION_RECEIVER_EMAIL = "ajivanyan@aua.am"
+PAYMENT_REQUEST_NOTIFICATION_RECEIVER_EMAIL = "ajivanyan@aua.am"
 
 
+RECAPTCHA_PUBLIC_KEY = '6Le22vMSAAAAABGiGXstYLtsJjVIbEJj2iApDNnS'
+RECAPTCHA_PRIVATE_KEY = '6Le22vMSAAAAAFkuBLxCmACGIgvdADzSkPLIzcsR'
 
 #*******************************************************************
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lyukar@gmail.com'
+EMAIL_HOST_PASSWORD = 'montana1991'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Optional SMTP authentication information for EMAIL_HOST.
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_TLS = False
+
 
 
 LOCALE_PATHS = (
@@ -243,6 +178,7 @@ INSTALLED_APPS = (
     'patron',
     'merchant',
     'giftcard',
+    'south',
     #'multiuploader',	
     #'email_manager',	
     # website.apps.transaction', 	

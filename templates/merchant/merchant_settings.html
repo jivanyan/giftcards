@@ -1,0 +1,125 @@
+{% extends 'merchant/merchant_home_base.html' %}
+{% load i18n %}
+
+{% block title_block %}
+        {% trans "Merchant Settings" %}
+{% endblock %}
+
+{% block  body_main_block %}
+<div class="span-24 last">
+  <div class="raised_box">
+
+
+  <h2>Merchant Settings</h2>
+  <hr />
+
+
+
+  <form action="/merchant/settings/" class="edit_user" id="edit_merchant" method="post"  >
+	{% csrf_token %}
+    <div class="gray_box" style="padding-top: 40px; padding-bottom: 40px;">
+      <table class="layout bottom" style="width: 500px; margin: 0 auto;">
+
+      <!--Full Name-->
+      <tr>
+        <td>
+          <strong>Name: {{merchant.name}} </strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_name_link" class="pointer" >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_name_ui" style="display: none;">
+            <tr>
+              <td>
+		<label for = "user_first_name"> Name</label><br />
+                <input class="input_large_300" id="user_first_name" name="merchant[name]" size="30" type="text" value="{{merchant.name}}" />
+              </td>
+	   </tr>	
+          </table>
+        </td>
+      </tr>
+
+     <tr>
+        <td>
+          <strong>Email: {{merchant.user.email}} </strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_email_link" class="pointer" >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_email_ui" style="display: none;">
+            <tr>
+              <td>
+                <label for="user_email">New Email</label><br />
+                <input class="input_large_300" id="user_email" name="merchant[email]" size="30" type="text" placeholder = "..." value="" />
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+     <tr>
+        <td>
+          <strong>Password: *******</strong>
+        </td>
+        <td style="text-align: right;">
+          (<a id="change_password_link" class="pointer" >change</a>)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 15px; padding-bottom: 10px;">
+          <table id="change_password_ui" style="display: none;">
+            <tr>
+              <td>
+                <label for="user_password">New Password</label><br />
+                <input class="input_large_300" id="user_password" name="merchant[password]" size="30" type="password" placeholder = "..."  value = "" />
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="user_password_confirmation">Confirm New Password</label><br />
+                <input class="input_large_300" id="user_password_confirmation" name="merchant[password_confirmation]" size="30" type="password"  placeholder = "..."  value = "" />
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+ <!--Submit-->
+      <tr>
+        <td>
+	<input type="submit" class = "btn btn-primary" value="Save Changes">
+        </td>
+      </tr>
+    </table>
+  </div>
+  </form>
+
+</div>
+</div>
+
+{% endblock %}
+~                         

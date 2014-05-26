@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from giftcard.models import *
 from giftcard.forms import *
+from giftcards.email_templates import send_giftcard_by_email
 from merchant.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,6 @@ def giftcards(request):
 
 
 	context_dict = {'categories' : c,
-			'giftcards' : g,
 			'merchants' : m}
 	if request.user.is_authenticated():
 		user = User.objects.get(id = request.user.id)
@@ -31,13 +31,61 @@ def giftcards(request):
 			account = patron.account
 			context_dict['account'] = True
 			context_dict['balance'] = account.balance
-	giftcard_plans = GiftCardPlan.objects.all()
+	giftcard_plans = GiftCardPlan.objects.filter(is_active = True)
 	context_dict['plans'] = giftcard_plans
+	top_5_plans = top_5_gift_card_plans()
+	context_dict['top_5'] = top_5_plans
 
 	return render_to_response("giftcard/giftcards_base.html", context_dict, context)
 
 
-def gift_card_view(request,plan_id):
+
+@login_required
+def gift_card_history_view(request):
+	context = RequestContext(request)
+	context_dict = {}
+		
+	if request.method == 'GET':
+                code = request.GET['code']
+	card = get_object_or_404(GiftCard, code = code)
+	user = request.user
+        if not hasattr(user, 'patron') or card.buyer != user:
+                raise Http404
+	 
+	context_dict['card'] = card
+	history_items = GiftCardHistoryItem.objects.filter(card = card).order_by('timestamp')
+	for h in history_items:
+		if hasattr(h.master, 'patron'):
+			h.mastername = h.master.first_name + ' ' + h.master.last_name
+		elif hasattr(h.master, 'merchant'):
+			h.mastername = h.master.merchant.name
+			
+	
+	context_dict['history_items'] = history_items		
+ 		
+	return render_to_response("giftcard/gift_card_history_view.html", context_dict, context)	
+
+
+@login_required
+def pay_gift_card_view(request):
+        context = RequestContext(request)
+        context_dict = {}
+
+        if request.method == 'GET':
+                code = request.GET['code']
+        card = get_object_or_404(GiftCard, code = code)
+        user = request.user
+        if not hasattr(user, 'patron') or card.buyer != user:
+                raise Http404
+                                                       
+        context_dict['card'] = card
+
+        return render_to_response("giftcard/pay_gift_card_view.html", context_dict, context)
+
+
+
+
+def gift_card_plan_view(request,plan_id):
 	context = RequestContext(request)
 	context_dict = {}
 	try:
@@ -48,6 +96,10 @@ def gift_card_view(request,plan_id):
 			context_dict['merchant']=m
 			context_dict['merchant_other_plans'] = GiftCardPlan.objects.filter(giftcardplan_merchants__merchant = m).exclude(id = plan_id) 
 		else:
+			merchants = merchants.all()
+			
+			for m in merchants:
+				m.url = m.user.username.replace(' ', '_')
 			context_dict['merchants'] = merchants
 		related_plans = related_gift_card_plans(giftcardplan)
 		
@@ -57,7 +109,7 @@ def gift_card_view(request,plan_id):
 	except GiftCardPlan.DoesNotExist:
 		raise Http404
 	
-	return render_to_response("giftcard/gift_card_view.html", context_dict, context)
+	return render_to_response("giftcard/giftcard_plan_view.html", context_dict, context)
 	
 @login_required
 def buy_gift_card(request, plan_id):
@@ -86,12 +138,14 @@ def buy_gift_card(request, plan_id):
 			giftcard.remainder = giftcardplan.value
 
 		giftcard.plan = giftcardplan
+		giftcardplan.sold = giftcardplan.sold + 1
 		giftcard.buyer = user
 		giftcard.generate_code()
 		if giftcard.send_to:
-			pass
-			#giftcard.send_to_recipient()
+			send_giftcard_by_email(giftcard)
+			
 		giftcard.save()
+		giftcardplan.save()
 		user.patron.pay_for_giftcard(giftcard)
 
 		return HttpResponseRedirect(reverse('patron_sent_giftcards'))
@@ -99,11 +153,13 @@ def buy_gift_card(request, plan_id):
 	else:	
 		if giftcardplan.price != 0:
 			context_dict['fixed'] = giftcardplan.price
-			context_dict['plan'] = giftcardplan
+		context_dict['plan'] = giftcardplan
 
         return render_to_response("giftcard/buy_gift_card.html", context_dict, context)
 
 	
+
+
 
 
 @login_required
@@ -116,6 +172,7 @@ def sell_giftcard(request):
 
 	if request.method == "POST":
 		c = request.POST["card[code]"]
+		c = c.strip()
 		patron = request.user.patron
 		giftcard = get_object_or_404(GiftCard, code = c)
 		
@@ -165,14 +222,26 @@ def cash_back_return_amount(giftcard):
 
 
 def related_gift_card_plans(plan):
+	"""
+	Returns the specified plan related giftcardplans. The relation criteria should be still defined!!!	
+	"""
         return GiftCardPlan.objects.all()
 
 def filter_gift_card_plans(query):
+	"""
+	This function take the search criteria and makes a general search: 
+	It should scan all the description, name, categories of existing giftcards
+	TODO 	
+	"""
         return GiftCardPlan.objects.filter(giftcardplan_merchants__merchant__name__startswith = query)
 
-
+def top_5_gift_card_plans():
+	return GiftCardPlan.objects.all().order_by('sold')[:5]
 
 def search_gift_card_plans(request):
+	"""
+	THis is for AJAX search call which wraps the filter_gift_card_plans function
+	"""
         context = RequestContext(request)
         plans = []
         query = ''

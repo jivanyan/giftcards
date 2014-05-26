@@ -1,36 +1,21 @@
   <table class="giftcards_big_grid bottom">
 
-          <tbody><tr>
+          <tbody>		
 
-          <td>
-            <a href="/buy/barnes-and-noble-gift-cards">
-              <img alt="Barnes &amp; Noble Gift Card" height="79" src="/scaled_images/cards/125x79/barnes_and_noble_125x79.jpg?1396397316" width="125">
-            </a>
-          </td>
-          <td>
-            <a href="/buy/amc-theatres-gift-cards">
-              <img alt="AMC Theatres Gift Card" height="79" src="/scaled_images/cards/125x79/amc_theatres_125x79.jpg?1396397314" width="125">
-            </a>
-          </td>
-          <td>
-            <a href="/buy/walmart-gift-cards">
-              <img alt="Walmart Gift Card" height="79" src="/scaled_images/cards/125x79/walmart_125x79.jpg?1396397338" width="125">
-            </a>
-          </td>
+	{% for p in top_5 %}
+        {% if forloop.counter0|divisibleby:5 %}<tr>{% endif %}
+        <td id = "m{{p.id}}"  class="merchant_cell" title="{{p.merchant.name}}"  >
 
-          <td>
-            <a href="/buy/cardpool-gift-cards">
-              <img alt="Cardpool Gift Card" height="79" src="/scaled_images/cards/125x79/cardpool_125x79.jpg?1396397321" width="125">
+		 <a href="/giftcards/{{p.id}}">
+              <img alt="{{p.merchant.name}}" height="75" src="/media/{{p.logo}}" width="150">
             </a>
-          </td>
-          <td>
-            <a href="/buy/williams-sonoma-gift-cards">
-              <img alt="Williams-Sonoma Gift Card" height="79" src="/scaled_images/cards/125x79/williams_sonoma_125x79.jpg?1396397338" width="125">
-            </a>
-          </td>
 
-          </tr>
-          </tbody>
+
+        </td>
+        {% if forloop.counter|divisibleby:5 or forloop.last %}</tr>{% endif %}
+        {% endfor %}
+
+        </tbody>
     </table>
 
 
