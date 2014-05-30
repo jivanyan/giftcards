@@ -4,7 +4,6 @@ PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 TEMPLATES_PATH = os.path.join(PROJECT_PATH, 'website/templates') 
 STATIC_PATH = os.path.join(PROJECT_PATH, 'website/static') 
 MEDIA_PATH = os.path.join(PROJECT_PATH, 'website/media')
-DATABASE_PATH = os.path.join(PROJECT_PATH, 'db.giftcards') 
 #LOCAL_PATH = os.path.join(PROJECT_PATH,
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -57,14 +56,12 @@ MANAGERS = ADMINS
 LOGIN_URL = 'login'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DATABASE_PATH,                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'aram',
-
-        'PASSWORD': 'giftcards',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'giftcards_rds',
+        'USER': 'giftcards',
+        'PASSWORD': 'sdracgift',
+        'HOST': 'giftcards-rds.cehepqyxa9tb.eu-west-1.rds.amazonaws.com',
+        'PORT': 5432,
     }
 }
 
