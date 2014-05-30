@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from patron.views import *
+from apps.patron.views import *
 
 urlpatterns = patterns('',
 	url(r'^edit/$', edit_settings, name='edit_patron_settings'),

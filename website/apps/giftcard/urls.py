@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from giftcard import views 
+from apps.giftcard import views 
 
 urlpatterns = patterns('',
 	url(r'^$', views.giftcards, name='giftcards'),

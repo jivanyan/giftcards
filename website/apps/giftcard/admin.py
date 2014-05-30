@@ -1,5 +1,5 @@
 from django.contrib import admin
-from giftcard.models import *
+from apps.giftcard.models import *
 #from django_facebook.models import FacebookCustomUser
 
 

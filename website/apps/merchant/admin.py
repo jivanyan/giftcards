@@ -1,5 +1,5 @@
 from django.contrib import admin
-from merchant.models import *
+from apps.merchant.models import *
 class MerchantPaymentRequestAdmin(admin.ModelAdmin):
         list_display = ('transaction', 'amount', 'satisfied','fulfilled_at')
         list_filter = ['satisfied', 'fulfilled_at']

@@ -1,10 +1,10 @@
 # Create your views here.
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
-from giftcard.models import *
-from giftcard.forms import *
-from giftcards.email_templates import send_giftcard_by_email
-from merchant.models import *
+from apps.giftcard.models import *
+from apps.giftcard.forms import *
+from email_templates import send_giftcard_by_email
+from apps.merchant.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect

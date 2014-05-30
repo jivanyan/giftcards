@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from giftcards.views import *
+from views import *
 import multiuploader
 from django.conf import settings
 # Uncomment the next two lines to enable the admin:
@@ -9,9 +9,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', MainPageView.as_view(), name='main_page'),
-    url(r'^giftcards/', include('giftcard.urls')),
-    url(r'^merchant/', include('merchant.urls')),
-    url(r'^account/', include('patron.urls')),
+    url(r'^giftcards/', include('apps.giftcard.urls')),
+    url(r'^merchant/', include('apps.merchant.urls')),
+    url(r'^account/', include('apps.patron.urls')),
     url(r'^upload/', include('multiuploader.urls')),
     url(r'^login/', user_login, name = 'login'),
     url(r'^signup', user_signup, name = 'signup'),

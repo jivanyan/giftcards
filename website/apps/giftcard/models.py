@@ -1,6 +1,6 @@
 from django.db import models , transaction
 import datetime, time
-from account.models import CurrencyField 
+from apps.account.models import CurrencyField 
 from django.contrib.auth.models import User
 from django.utils.timezone import utc
 from django.core.mail import send_mail

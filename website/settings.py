@@ -1,9 +1,9 @@
 # Django settings for giftcards project.
 import os 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
-TEMPLATES_PATH = os.path.join(PROJECT_PATH, 'templates') 
-STATIC_PATH = os.path.join(PROJECT_PATH, 'static') 
-MEDIA_PATH = os.path.join(PROJECT_PATH,'media')
+TEMPLATES_PATH = os.path.join(PROJECT_PATH, 'website/templates') 
+STATIC_PATH = os.path.join(PROJECT_PATH, 'website/static') 
+MEDIA_PATH = os.path.join(PROJECT_PATH, 'website/media')
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'db.giftcards') 
 #LOCAL_PATH = os.path.join(PROJECT_PATH,
 DEBUG = True
@@ -155,10 +155,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'giftcards.urls'
+ROOT_URLCONF = 'urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'giftcards.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -174,11 +174,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account',
-    'patron',
-    'merchant',
-    'giftcard',
-    'south',
+    'apps.account',
+    'apps.patron',
+    'apps.merchant',
+    'apps.giftcard',
+    #'south',
     #'multiuploader',	
     #'email_manager',	
     # website.apps.transaction', 	

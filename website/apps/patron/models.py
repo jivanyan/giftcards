@@ -1,10 +1,10 @@
 from django.db import models, transaction
 from django.contrib.auth.models import User
-from account.models import PatronAccount
+from apps.account.models import PatronAccount
 from django.utils.timezone import utc
 from django.utils.translation import ugettext as _	
 from django.conf import settings
-from giftcard.models import *
+from apps.giftcard.models import *
 #from email_manager.engine import *
 #except ImportError:
 #	print "Can not import engine"

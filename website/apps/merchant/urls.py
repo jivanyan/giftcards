@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from merchant import views 
+from apps.merchant import views 
 
 urlpatterns = patterns('',
 	url(r'^home/$', views.homepage, name = 'merchant_home'),

@@ -1,9 +1,9 @@
 from django.db import models, transaction
 from django.contrib.auth.models import User
-from giftcard.models import GiftCardHistoryItem
-from account.models import CurrencyField
+from apps.giftcard.models import GiftCardHistoryItem
+from apps.account.models import CurrencyField
 from django.conf import settings
-from giftcard.models import GiftCard	
+from apps.giftcard.models import GiftCard	
 import hashlib, math
 from decimal import Decimal
 

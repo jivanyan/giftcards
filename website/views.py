@@ -1,12 +1,12 @@
 from django.views.generic.base import TemplateView
-from giftcard.models import *
+from apps.giftcard.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from patron.models import *
+from apps.patron.models import *
 
 
 class MainPageView(TemplateView):

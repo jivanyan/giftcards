@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.http import Http404
-from merchant.models import *
-from giftcard.models import *
+from apps.merchant.models import *
+from apps.giftcard.models import *
 from decimal import Decimal
 
 

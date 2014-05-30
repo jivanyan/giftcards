@@ -7,10 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.http import Http404
-from merchant.models import *
-from giftcard.models import *
-from account.models import *
-from patron.models import *
+from apps.merchant.models import *
+from apps.giftcard.models import *
+from apps.account.models import *
+from apps.patron.models import *
 
 @login_required
 def edit_settings(request):

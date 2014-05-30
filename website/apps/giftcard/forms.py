@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.admin import widgets
 import datetime
 from django.forms.extras.widgets import SelectDateWidget
-from giftcard.models import GiftCardPlan, GiftCardCategory
+from apps.giftcard.models import GiftCardPlan, GiftCardCategory
 from django.contrib.auth.models import User
 #from multiuploader.forms import MultiuploaderField
 CATEGORIES = [(s.name, s.name ) for s in GiftCardCategory.objects.all() ]
