@@ -5,7 +5,7 @@ TEMPLATES_PATH = os.path.join(PROJECT_PATH, 'website/templates')
 STATIC_PATH = os.path.join(PROJECT_PATH, 'website/static') 
 MEDIA_PATH = os.path.join(PROJECT_PATH, 'website/media')
 #LOCAL_PATH = os.path.join(PROJECT_PATH,
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 #*******************************************************************
@@ -68,7 +68,8 @@ DATABASES = {
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-	'obscure-brushlands-9586.herokuapp.com/'
+	'obscure-brushlands-9586.herokuapp.com',
+	'*'
 ]
 
 # Local time zone for this installation. Choices can be found here:
