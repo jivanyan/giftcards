@@ -5,7 +5,7 @@ TEMPLATES_PATH = os.path.join(PROJECT_PATH, 'website/templates')
 STATIC_PATH = os.path.join(PROJECT_PATH, 'website/static') 
 MEDIA_PATH = os.path.join(PROJECT_PATH, 'website/media')
 #LOCAL_PATH = os.path.join(PROJECT_PATH,
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 #*******************************************************************
